@@ -11,6 +11,7 @@ module.exports = {
     project: './tsconfig.json',
   },
   rules: {
+    'react/jsx-indent-props': 0,
     'react/react-in-jsx-scope': 'off',
     'import/extensions': 'off',
   },
