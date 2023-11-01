@@ -32,8 +32,6 @@ import {
     IconSettings,
     IconSwitchHorizontal,
     IconLogout,
-    IconPlayerPause,
-    IconTrash,
 } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -236,7 +234,7 @@ export default function HeaderMenu() {
     ));
 
     return (
-        <Box pb={120}>
+        <Box>
             <header className={classes.header}>
                 <Group justify="space-between" h="100%">
                     <div>
@@ -245,10 +243,10 @@ export default function HeaderMenu() {
                     </div>
 
                     <Group h="100%" gap={0} visibleFrom="sm">
-                        <a href="#" className={classes.link}>
+                        <a href="/user" className={classes.link}>
                             Home
                         </a>
-                        <a href="shop" className={classes.link}>
+                        <a href="/user/shop" className={classes.link}>
                             Shop
                         </a>
                         <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>

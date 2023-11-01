@@ -4,6 +4,7 @@ import { Button, Center, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Welcome } from '../components/Welcome/Welcome';
 import AuthenticationForm from '@/components/AuthenticationForm/AuthenticationForm';
+import Footer from '@/components/Footer/Footer';
 
 const WelcomePage = () => {
     const [opened, {
@@ -32,6 +33,7 @@ const WelcomePage = () => {
             >
                 <AuthenticationForm noPadding noShadow />
             </Modal>
+            <Footer />
         </div>
     );
 };
