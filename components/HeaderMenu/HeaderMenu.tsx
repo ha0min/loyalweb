@@ -1,3 +1,5 @@
+'use client';
+
 import {
     HoverCard,
     Group,
@@ -38,6 +40,7 @@ import { useState } from 'react';
 import cx from 'clsx';
 import classes from './HeaderMenu.module.css';
 import { Logo } from '@/components/Logo/Logo';
+import { User } from '../../../fanlyweb/common/type';
 
 const mockdata = [
     {
@@ -72,11 +75,6 @@ const mockdata = [
     },
 ];
 
-type User = {
-    name: string;
-    image: string;
-};
-
 const AvatarMenu = (user: User) => {
     const theme = useMantineTheme();
     const [userMenuOpened, setUserMenuOpened] = useState(false);
@@ -96,7 +94,7 @@ const AvatarMenu = (user: User) => {
                         className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
                     >
                         <Group gap={7}>
-                            <Avatar src={user.image} alt={user.name} radius="xl" size={20} />
+                            <Avatar src={user.avatar} alt={user.name} radius="xl" size={20} />
                             <Text fw={500} size="sm" lh={1} mr={3}>
                                 {user.name}
                             </Text>
@@ -243,15 +241,15 @@ export default function HeaderMenu() {
                     </div>
 
                     <Group h="100%" gap={0} visibleFrom="sm">
-                        <a href="/user" className={classes.link}>
+                        <Link href="/user" className={classes.link}>
                             Home
-                        </a>
-                        <a href="/user/shop" className={classes.link}>
+                        </Link>
+                        <Link href="/user/shop" className={classes.link}>
                             Shop
-                        </a>
+                        </Link>
                         <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
                             <HoverCard.Target>
-                                <a href="#" className={classes.link}>
+                                <Link href="#" className={classes.link}>
                                     <Center inline>
                                         <Box component="span" mr={5}>
                                             Rewards
@@ -264,7 +262,7 @@ export default function HeaderMenu() {
                                             color={theme.colors.blue[6]}
                                         />
                                     </Center>
-                                </a>
+                                </Link>
                             </HoverCard.Target>
 
                             <HoverCard.Dropdown style={{ overflow: 'hidden' }}>
@@ -282,7 +280,7 @@ export default function HeaderMenu() {
                     </Group>
 
                     <Group visibleFrom="sm">
-                        <AvatarMenu name="test" image={"https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80'"} />
+                        <AvatarMenu name="test" avatar={"https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80'"} />
                     </Group>
 
                     <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
@@ -301,9 +299,9 @@ export default function HeaderMenu() {
                 <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
                     <Divider my="sm" />
 
-                    <a href="#" className={classes.link}>
+                    <Link href="/" className={classes.link}>
                         Home
-                    </a>
+                    </Link>
                     <UnstyledButton className={classes.link} onClick={toggleLinks}>
                         <Center inline>
                             <Box component="span" mr={5}>
