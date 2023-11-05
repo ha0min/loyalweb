@@ -1,4 +1,5 @@
-'use client';
+import { FloatButton } from 'antd';
+import { IconShoppingCart } from '@tabler/icons-react';
 
 const Hello = () => (
         <div>
