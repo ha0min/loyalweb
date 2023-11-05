@@ -18,13 +18,18 @@
     "storybook:build": "storybook build"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "@ant-design/pro-components": "^2.6.35",
     "@mantine/carousel": "^7.1.7",
     "@mantine/core": "7.1.7",
     "@mantine/form": "^7.1.7",
     "@mantine/hooks": "7.1.7",
     "@next/bundle-analyzer": "^13.5.3",
+    "@swc-jotai/react-refresh": "^0.1.0",
     "@tabler/icons-react": "^2.20.0",
+    "antd": "^5.10.3",
     "embla-carousel-react": "^8.0.0-rc14",
+    "jotai": "^2.5.0",
     "next": "13.5.3",
     "react": "18.2.0",
     "react-dom": "18.2.0"

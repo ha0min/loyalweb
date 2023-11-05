@@ -9,5 +9,6 @@ module.exports = withBundleAnalyzer({
   },
   experimental: {
     optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
+    swcPlugins: [['@swc-jotai/react-refresh', {}]],
   },
 });
