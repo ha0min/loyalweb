@@ -9,10 +9,12 @@ import {
     Card,
     Group,
     Badge,
-    Flex,
+    Flex, Title, Checkbox, Divider, Select,
 } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import { List } from 'antd';
+import { randomId, useListState } from '@mantine/hooks';
+import { Suspense, useEffect, useState } from 'react';
 import { ProductDetail } from '@/store/types/type';
 import BuyButton from '@/components/BuyNowButton/BuyNowButton';
 
@@ -36,15 +38,71 @@ const Banner = () => (
     </Carousel>
 );
 
-const ProductFilter = () => (
-    <div>
-        <Skeleton height={200} radius="md" animate={false} />
-        <div>4</div>
-    </div>
-);
+type ProductFilterProps = {
+    categories: string[],
+    onCategoryChange: (selectedCategories: string[]) => void;
+};
+
+const ProductFilter = (props: ProductFilterProps) => {
+    console.log(props.categories);
+    // Create a state for categories with a checked property
+    const initialCategoryState = props.categories.map((category) => ({
+        label: category,
+        checked: false,
+        key: randomId(), // Assuming category names are unique
+    }));
+
+    const [categoryValues, categoryHandlers] = useListState(initialCategoryState);
+
+    const allChecked = categoryValues.every((value) => value.checked);
+    const indeterminate = categoryValues.some((value) => value.checked) && !allChecked;
+
+    const handleCategoryChange = (index, checked) => {
+        categoryHandlers.setItemProp(index, 'checked', checked);
+        // Trigger the parent component's category change handler
+        props.onCategoryChange(categoryValues.map((value) => value.checked ? value.label : null)
+            .filter(Boolean));
+    };
+
+    const items = categoryValues.map((value, index) => (
+        <Checkbox
+            mt="xs"
+            label={value.label}
+            key={value.key}
+            checked={value.checked}
+            onChange={(event) => handleCategoryChange(index, event.currentTarget.checked)}
+        />
+    ));
+
+    return (
+        <>
+            <Title order={4}>Ordering</Title>
+
+            <Divider my="sm" />
+
+            <Title order={4}>Filter by categories</Title>
+            <Checkbox
+                checked={allChecked}
+                indeterminate={indeterminate}
+                label="All categories"
+                onChange={() =>
+                    categoryHandlers.setState((current) =>
+                        current.map((value) => ({
+                            ...value,
+                            checked: !allChecked,
+                        }))
+                    )
+                }
+            />
+            <Group>{items}</Group>
+
+        </>
+    );
+};
 
 type ProductListProps = {
     products?: ProductDetail[];
+    total?: number;
 };
 
 const mockData: ProductDetail[] =
@@ -96,9 +154,10 @@ const mockData: ProductDetail[] =
         },
     ];
 
-const ProductList = (props: ProductListProps) =>
+const total = mockData.length;
 
-     (
+const ProductList = (props: ProductListProps) =>
+    (
         <div>
             <List
                 pagination={{
@@ -106,7 +165,7 @@ const ProductList = (props: ProductListProps) =>
                     defaultPageSize: 12,
                     hideOnSinglePage: true,
                     pageSizeOptions: ['12', '24', '36'],
-                    total: props.products.length,
+                    total: props.total,
                 }}
                 dataSource={props.products}
                 grid={{
@@ -152,11 +211,46 @@ const ProductList = (props: ProductListProps) =>
             />
         </div>
     );
-const ShopPage = () =>
+const ShopPage = () => {
     // here we need to filter the products by category
     // and then display them in product list
+    const [originalProducts, setOriginalProducts] = useState<ProductDetail[]>([]);
+    const [products, setProducts] = useState<ProductDetail[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [sortOrder, setSortOrder] = useState('asc');
+    const [categories, setCategories] = useState<string[]>([]);
 
-    (
+    // Fetch data from API
+    useEffect(() => {
+        const getProducts = async () => {
+            // const response = await fetchProducts(); // API call to fetch products
+            const response = {
+                data: { records: mockData },
+                total,
+            };
+            setOriginalProducts(response.data.records);
+            setProducts(response.data.records);
+            setCategories(Array.from(new Set(response.data.records.map(item => item.category))));
+        };
+
+        getProducts();
+    }, []);
+
+    // Apply filters and sorting whenever the selected categories or sort order changes
+    useEffect(() => {
+        let filteredProducts = [...originalProducts];
+
+        if (selectedCategories.length > 0) {
+            filteredProducts = filteredProducts.filter(
+                item => selectedCategories.includes(item.category));
+        }
+
+        filteredProducts.sort((a, b) => sortOrder === 'asc' ? a.price - b.price : b.price - a.price);
+
+        setProducts(filteredProducts);
+    }, [selectedCategories, sortOrder, originalProducts]);
+
+    return (
         <div>
             <Container my="md">
                 <Grid my="md">
@@ -169,13 +263,18 @@ const ShopPage = () =>
 
                     <Grid.Col>
                         <Grid gutter="md">
-                            <Grid.Col span={3}>
-                                <ProductFilter />
-                            </Grid.Col>
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <Grid.Col span={3}>
+                                    <ProductFilter
+                                        categories={categories}
+                                        onCategoryChange={setSelectedCategories}
+                                    />
+                                </Grid.Col>
 
-                            <Grid.Col span={9}>
-                                <ProductList products={mockData} />
-                            </Grid.Col>
+                                <Grid.Col span={9}>
+                                    <ProductList products={products} total={products.length} />
+                                </Grid.Col>
+                            </Suspense>
                         </Grid>
 
                     </Grid.Col>
@@ -184,4 +283,5 @@ const ShopPage = () =>
         </div>
 
     );
+};
 export default ShopPage;
