@@ -1,3 +1,5 @@
+'use client';
+
 import { Flex, Image, Text, Title } from '@mantine/core';
 
 export const PageTitle = ({

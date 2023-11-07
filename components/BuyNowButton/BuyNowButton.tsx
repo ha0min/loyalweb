@@ -39,7 +39,11 @@ const BuyButton = (props: {
                     display: props.hideAddToCart ? 'none' : 'block',
                 }}
                 variant="light"
-                onClick={() => updateCartAtom(props.product, 1)}
+                onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    updateCartAtom(props.product, 1);
+                }}
                 color="violet"
                 ml="md"
                 radius="xl"
@@ -47,7 +51,18 @@ const BuyButton = (props: {
                 {isInCart ? <IconCheck stroke={1.5} /> : <IconPlus stroke={1.5} />}
             </Button>
 
-            <Button variant="outline" onClick={onBuyNow} color="violet" ml="md" radius="xl">
+            <Button
+                variant="outline"
+                onClick={
+                    (event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        onBuyNow();
+                    }}
+                color="violet"
+                ml="md"
+                radius="xl"
+            >
                 Buy Now
             </Button>
         </Flex>

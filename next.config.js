@@ -14,8 +14,8 @@ module.exports = withBundleAnalyzer({
   async rewrites() {
     return [
       {
-        source: '/api',
-        destination: 'https://mock.apifox.com/m1/3497852-0-default/',
+        source: '/api/:path*',
+        destination: 'https://mock.apifox.com/m1/3497852-0-default/:path*',
       },
     ]
   },

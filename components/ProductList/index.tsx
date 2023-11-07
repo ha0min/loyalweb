@@ -1,5 +1,5 @@
 import { List } from 'antd';
-import { Badge, Button, Card, Flex, Grid, Group, Image, Modal, Space, Stack, Text, Title } from '@mantine/core';
+import { Badge, Card, Flex, Grid, Group, Image, Modal, Space, Stack, Text, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { ProductDetail } from '@/store/types/type';
@@ -99,12 +99,13 @@ const ProductList = (props: ProductListProps) => {
                                 padding="lg"
                                 radius="md"
                                 withBorder
-                                onClick={() => {
-                                    setDetail(item);
-                                    open();
-                                }}
                             >
-                                <Card.Section>
+                                <Card.Section
+                                    onClick={() => {
+                                        setDetail(item);
+                                        open();
+                                    }}
+                                >
                                     <Image
                                         src={item?.picture}
                                         height={160}
