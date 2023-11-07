@@ -1,5 +1,7 @@
 import { List } from 'antd';
-import { Badge, Card, Flex, Group, Image, Text } from '@mantine/core';
+import { Badge, Button, Card, Flex, Grid, Group, Image, Modal, Space, Stack, Text, Title } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { useState } from 'react';
 import { ProductDetail } from '@/store/types/type';
 import BuyButton from '@/components/BuyNowButton/BuyNowButton';
 
@@ -7,9 +9,59 @@ type ProductListProps = {
     products?: ProductDetail[];
     total?: number;
 };
-const ProductList = (props: ProductListProps) =>
-    (
+
+const ProductOfDetail = (props: { product?: ProductDetail }) => {
+    const { product } = props;
+    return (
         <div>
+            <Stack p="md" gap="xl">
+                <Grid>
+                    <Grid.Col span={4}>
+                        <Image src={product.picture} alt={product.name} radius="md" width={200} height={200} />
+                    </Grid.Col>
+                    <Grid.Col span={8}>
+                        <Stack align="strech">
+                            <Title order={2}>{product.name}</Title>
+                            <Text c="dimmed" size="sm">{product.category}</Text>
+                            <Badge color="purple" variant="light" size="lg" mt="md">
+                                In Stock
+                            </Badge>
+
+                            <Text size="lg" fw={500} mt="md">
+                                ${product.price.toFixed(2)}
+                            </Text>
+                        </Stack>
+                    </Grid.Col>
+                </Grid>
+
+                <Space h="md" />
+
+                <Text size="sm" style={{ lineHeight: 1.5 }}>
+                    {product.description}
+                </Text>
+
+                <Space h="md" />
+            </Stack>
+
+            <BuyButton
+                product={product}
+            />
+        </div>
+    );
+};
+
+const ProductList = (props: ProductListProps) => {
+    const [opened, {
+        open,
+        close,
+    }] = useDisclosure(false);
+    const [product, setDetail] = useState<ProductDetail>();
+
+    return (
+        <div>
+            <Modal opened={opened} size="xl" onClose={close} title="Product Detailed" centered>
+                <ProductOfDetail product={product} />
+            </Modal>
             <List
                 pagination={{
                     align: 'center',
@@ -26,7 +78,16 @@ const ProductList = (props: ProductListProps) =>
                 renderItem={(item: ProductDetail) => (
                     <List.Item>
                         <div>
-                            <Card shadow="sm" padding="lg" radius="md" withBorder>
+                            <Card
+                                shadow="sm"
+                                padding="lg"
+                                radius="md"
+                                withBorder
+                                onClick={() => {
+                                    setDetail(item);
+                                    open();
+                                }}
+                            >
                                 <Card.Section>
                                     <Image
                                         src={item?.picture}
@@ -62,5 +123,6 @@ const ProductList = (props: ProductListProps) =>
             />
         </div>
     );
+};
 
 export default ProductList;

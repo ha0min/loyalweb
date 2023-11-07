@@ -20,3 +20,9 @@ export type User = {
     profile?: string,
     points?: number,
 };
+
+export interface BaseResponse<TData> {
+    code: number;
+    data: TData;
+    message?: string;
+}

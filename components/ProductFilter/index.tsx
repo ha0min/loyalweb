@@ -9,6 +9,7 @@ type ProductFilterProps = {
 };
 
 const ProductFilter = (props: ProductFilterProps) => {
+    console.log('ProductFilter props', props);
     const initialCategoryState = props.categories.map((category) => ({
         label: category,
         checked: true,
@@ -32,10 +33,23 @@ const ProductFilter = (props: ProductFilterProps) => {
         const updatedCategories = categoryValues
             .filter((value) => value.checked)
             .map((value) => value.label);
+        console.log('Updated categories:', updatedCategories);
 
         // Trigger the parent component's category change handler with the new list of selected categories
         props.onCategoryChange(updatedCategories);
     }, [categoryValues]);
+
+    useEffect(() => {
+        console.log('Reset categories if they change', props.categories);
+
+        categoryHandlers.setState(
+            props.categories.map((category) => ({
+                label: category,
+                checked: true,
+                key: category,
+            }))
+        );
+    }, [props.categories]);
 
     const items = categoryValues.map((value, index) => (
         <Checkbox

@@ -116,7 +116,7 @@ const CheckoutResult = (props: CheckoutResultProps) => (
         }
         title={props.success ? 'Thank you for your order!' : 'Failed to submit the order'}
         subTitle={props.success ? (
-                <div>
+                <div key="success-subtitle">
                     <Flex
                         align="center"
                         justify="center"
