@@ -12,6 +12,7 @@ import { ProductDetail } from '@/store/types/type';
 import ProductFilter from '@/components/ProductFilter';
 import ProductList from '@/components/ProductList';
 import { useProductList } from '@/api/prodcut';
+import { PageTitle } from '@/components/PageTitle/PageTitle';
 
 const Banner = () => (
     <Carousel slideSize="70%" height={200} loop slideGap="md" controlSize={30} withIndicators>
@@ -94,8 +95,12 @@ const ShopPage = () => {
     }
 
     return (
-        <div>
-            <Container my="md">
+            <Container p="md">
+                <PageTitle
+                    title="Buy your favorite product"
+                    subtitle="Earn points for every purchase you make."
+                    url="https://em-content.zobj.net/source/telegram/358/shopping-bags_1f6cd-fe0f.webp"
+                />
                 <Grid my="md">
                     <Grid.Col>
                         <Banner />
@@ -122,8 +127,6 @@ const ShopPage = () => {
                     </Grid.Col>
                 </Grid>
             </Container>
-        </div>
-
     );
 };
 export default ShopPage;

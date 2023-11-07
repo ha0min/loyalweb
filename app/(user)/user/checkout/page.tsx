@@ -19,6 +19,7 @@ import { List, Result } from 'antd';
 import { useForm } from '@mantine/form';
 import { cartAtom, cartAtomType } from '@/store/cartStore';
 import { SubmitOrderFormValues, useSubmitOrder } from '@/api/forms';
+import { PageTitle } from '@/components/PageTitle/PageTitle';
 
 const ItemContent = (props: { cartValue: cartAtomType }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -234,8 +235,12 @@ const CheckoutPage = () => {
     }, [orderResponse, error]);
 
     return (
-        <Container px="xl">
-            <Title my="md">Checkout</Title>
+        <Container p="md">
+            <PageTitle
+                title="Checkout"
+                subtitle="Confirm order and earn reward points."
+                url="https://em-content.zobj.net/source/telegram/358/smiling-cat-with-heart-eyes_1f63b.webp"
+            />
             <Stepper my="md" active={active}>
                 <Stepper.Step label="Confirm">
                     <Paper w="100%" shadow="xs" radius="lg" withBorder p="md">

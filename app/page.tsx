@@ -1,11 +1,12 @@
 'use client';
 
-import { Button, Center, Modal, rem } from '@mantine/core';
+import { Button, Center, Container, Modal, Paper, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconArrowRight } from '@tabler/icons-react';
 import { Welcome } from '../components/Welcome/Welcome';
 import AuthenticationForm from '@/components/AuthenticationForm/AuthenticationForm';
 import Footer from '@/components/Footer/Footer';
+import { FeaturesCards } from '@/components/FeatureCards';
 
 const WelcomePage = () => {
     const [opened, {
@@ -14,7 +15,7 @@ const WelcomePage = () => {
     }] = useDisclosure(false);
 
     return (
-        <div>
+        <Container p="md">
             <Welcome />
             <Center>
                 <Button rightSection={<IconArrowRight size={30} />} onClick={open} size="xl" radius="xl" mb={rem('50px')} variant="primary">
@@ -34,8 +35,11 @@ const WelcomePage = () => {
             >
                 <AuthenticationForm noPadding noShadow />
             </Modal>
-            <Footer />
-        </div>
+            <Paper shadow="md" radius="md" p="md">
+                <FeaturesCards />
+            </Paper>
+
+        </Container>
     );
 };
 
@@ -43,6 +47,7 @@ export default function Page() {
     return (
         <>
             <WelcomePage />
+            <Footer />
         </>
     );
 }
