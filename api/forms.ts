@@ -26,7 +26,7 @@ export const useSubmitOrder = () => {
         setError(null);
         try {
             // Start the fetch process
-            const response = await fetch('http://127.0.0.1:4523/m1/3497852-0-default/order/add', {
+            const response = await fetch('/api/order/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -36,7 +36,7 @@ import { useState } from 'react';
 import cx from 'clsx';
 import classes from './HeaderMenu.module.css';
 import { Logo } from '@/components/Logo/Logo';
-import { User } from '../../../fanlyweb/common/type';
+import { User } from '@/store/types/type';
 
 const RewardsMenu = [
     {

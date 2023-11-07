@@ -39,11 +39,11 @@ const fetcher = async <TData>(url: string, params: Record<string, any>): Promise
     return result.data;
 };
 export const useProductList = (props:ProductListRequest) => {
-    const key = JSON.stringify(['http://127.0.0.1:4523/m1/3497852-0-default/product/list/page/vo', props]);
+    const key = JSON.stringify(['/api/product/list/page/vo', props]);
 
     const { data, error } = useSWR<ProductListData, Error>(
         key,
-        () => fetcher<ProductListData>('http://127.0.0.1:4523/m1/3497852-0-default/product/list/page/vo',
+        () => fetcher<ProductListData>('/api/product/list/page/vo',
             props),
     );
 
@@ -62,11 +62,11 @@ export type PointsProductListRequest = {
 };
 
 export const usePointsProductList = (props:PointsProductListRequest) => {
-    const key = JSON.stringify(['http://127.0.0.1:4523/m1/3497852-0-default/reward/list/page/vo', props]);
+    const key = JSON.stringify(['/api/reward/list/page/vo', props]);
 
     const { data, error } = useSWR<ProductListData, Error>(
         key,
-        () => fetcher<ProductListData>('http://127.0.0.1:4523/m1/3497852-0-default/reward/list/page/vo',
+        () => fetcher<ProductListData>('/api/reward/list/page/vo',
             props),
     );
 

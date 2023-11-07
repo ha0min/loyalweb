@@ -11,4 +11,12 @@ module.exports = withBundleAnalyzer({
     optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
     swcPlugins: [['@swc-jotai/react-refresh', {}]],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api',
+        destination: 'https://mock.apifox.com/m1/3497852-0-default/',
+      },
+    ]
+  },
 });
