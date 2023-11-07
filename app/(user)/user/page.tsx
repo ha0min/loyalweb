@@ -1,10 +1,20 @@
-import { FloatButton } from 'antd';
-import { IconShoppingCart } from '@tabler/icons-react';
+import { Container, Paper } from '@mantine/core';
+import { PageTitle } from '@/components/PageTitle/PageTitle';
+import { FeaturesCards } from '@/components/FeatureCards';
 
 const Hello = () => (
-        <div>
-            <h1>Hello</h1>
-        </div>
+        <Container p="md">
+            <PageTitle
+                title="Welcome to Fanly!"
+                subtitle="Rewards you with your loyalty!"
+                url="https://em-content.zobj.net/source/telegram/358/smiling-face-with-sunglasses_1f60e.webp"
+            />
+
+            <Paper p="md" radius="md">
+                <FeaturesCards />
+            </Paper>
+
+        </Container>
     );
 
 export default Hello;
