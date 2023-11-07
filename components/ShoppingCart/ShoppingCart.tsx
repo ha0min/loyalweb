@@ -19,7 +19,7 @@ import { useAtomValue } from 'jotai';
 import { IconMinus, IconPlus, IconSparkles, IconTrashX } from '@tabler/icons-react';
 import Link from 'next/link';
 import { cartAtom } from '@/store/cartStore';
-import { ProductDetail } from '../../../fanlyweb/common/type';
+import { ProductDetail } from '@/store/types/type';
 import { userRemoveCartItemFromCartAtom, useUpdateCartAtom } from '@/store/cartStoreUtils';
 
 type CartProductItem = {
