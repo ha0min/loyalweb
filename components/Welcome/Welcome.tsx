@@ -1,15 +1,20 @@
-import { Title, Text, Anchor, Image, Flex, Container, Box, rem } from '@mantine/core';
+import { Title, Text, Anchor, Image, Flex, Container, Box, rem, Stack } from '@mantine/core';
 import classes from './Welcome.module.css';
+import { Logo } from '@/components/Logo/Logo';
 
 export function Welcome() {
     return (
-        <Box pb={80}>
-
+        <Box pt={200} pb={80}>
+            <Stack
+                justify="center"
+                align="center"
+                gap="md"
+            >
+                <Logo size={120} />
             <Flex
                 align="center"
                 justify="center"
                 gap="md"
-                pt={200}
             >
                 <Title className={classes.title} ta="center">
 
@@ -36,9 +41,10 @@ export function Welcome() {
                 />
             </Flex>
             <Text fw={500} size={rem('50px')} ta="center">
-                Let's Celebrate Your Loyalty Together
+                Let&lsquo;s Celebrate Your Loyalty Together
 
             </Text>
+            </Stack>
         </Box>
     );
 }

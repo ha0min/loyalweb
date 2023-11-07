@@ -3,6 +3,7 @@
 import { Button, Center, Container, Modal, Paper, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconArrowRight } from '@tabler/icons-react';
+import Link from 'next/link';
 import { Welcome } from '../components/Welcome/Welcome';
 import AuthenticationForm from '@/components/AuthenticationForm/AuthenticationForm';
 import Footer from '@/components/Footer/Footer';
@@ -17,9 +18,19 @@ const WelcomePage = () => {
     return (
         <Container p="md">
             <Welcome />
-            <Center>
-                <Button rightSection={<IconArrowRight size={30} />} onClick={open} size="xl" radius="xl" mb={rem('50px')} variant="primary">
+            <Center mb={rem('70px')}>
+                <Button rightSection={<IconArrowRight size={30} />} onClick={open} size="xl" radius="xl" variant="primary">
                     Get Started
+                </Button>
+                <Button
+                    component={Link}
+                    mx="md"
+                    href="/user"
+                    rightSection={<IconArrowRight size={30} />}
+                    size="xl"
+                    radius="xl"
+                >
+                    Continue as Guest
                 </Button>
             </Center>
             <Modal
