@@ -17,6 +17,7 @@ import {
 } from '@mantine/core';
 import { useAtomValue } from 'jotai';
 import { IconMinus, IconPlus, IconSparkles, IconTrashX } from '@tabler/icons-react';
+import Link from 'next/link';
 import { cartAtom, cartAtomType } from '@/store/cartStore';
 import { ProductDetail } from '../../../fanlyweb/common/type';
 import { userRemoveCartItemFromCartAtom, useUpdateCartAtom } from '@/store/cartStoreUtils';
@@ -32,11 +33,11 @@ type CartItemProps = {
     removeCartItem: () => void;
 };
 
-const CartItem = ({
-                      item,
-                      updateCartItem,
-                      removeCartItem,
-                  }: CartItemProps) => {
+export const CartItem = ({
+                             item,
+                             updateCartItem,
+                             removeCartItem,
+                         }: CartItemProps) => {
     console.log('cart item', item);
     return (
         <Card
@@ -96,7 +97,7 @@ const CartItem = ({
                                         radius="xl"
                                         size="sm"
                                         onClick={() => {
-                                            console.log('minus clicked', item.quantity);
+                                            // console.log('minus clicked', item.quantity);
                                             item.quantity > 1 && updateCartItem(item.quantity - 1);
                                         }}
                                     >
@@ -108,7 +109,7 @@ const CartItem = ({
                                         w={rem(20)}
                                         value={item.quantity}
                                         onChange={(t) => {
-                                            console.log('number input changed', t);
+                                            // console.log('number input changed', t);
                                             updateCartItem(Number(t));
                                         }}
                                         clampBehavior="strict"
@@ -124,7 +125,7 @@ const CartItem = ({
                                         size="sm"
                                         radius="xl"
                                         onClick={() => {
-                                            console.log('plus clicked', item.quantity);
+                                            // console.log('plus clicked', item.quantity);
 
                                             item.quantity < item.product.stock
                                             && updateCartItem(item.quantity + 1);
@@ -149,69 +150,6 @@ export const ShoppingCart = () => {
     }] = useDisclosure(false);
 
     const cart = useAtomValue(cartAtom);
-    // const [localCart, setLocalCart] = useState<cartAtomType>(
-    //     {
-    //         items: cart.items,
-    //         totalQuantity: cart.totalQuantity,
-    //         subtotal: cart.subtotal,
-    //     }
-    // );
-    //
-    // // Function to update global state
-    // const syncCartWithGlobalState = () => {
-    //     console.log('updated localCart', localCart);
-    //     setCart(localCart);
-    // };
-    //
-    // // Function to update local state
-    // const updateCartItem = (id: number, newQuantity: number) => {
-    //     console.log('updateCartItem', id, newQuantity);
-    //     let totalPriceChange = 0;
-    //     let quantityChange = 0;
-    //     const updatedLocalCartItems = localCart.items.map((item) => {
-    //         if (item.product.id === id) {
-    //             quantityChange = newQuantity - item.quantity;
-    //             totalPriceChange = (newQuantity - item.quantity) * item.product.price; // Assuming item has a price
-    //             return {
-    //                 ...item,
-    //                 quantity: newQuantity,
-    //             };
-    //         }
-    //         return item;
-    //     });
-    //     console.log('updatedLocalCartItems', totalPriceChange, quantityChange);
-    //     setLocalCart((currentLocalCart) => ({
-    //         ...currentLocalCart,
-    //         totalQuantity: currentLocalCart.totalQuantity + quantityChange,
-    //         subtotal: currentLocalCart.subtotal + totalPriceChange,
-    //         items: updatedLocalCartItems,
-    //     }));
-    //     syncCartWithGlobalState();
-    // };
-    //
-    // // Function to remove item from local state
-    // const removeCartItem = (id: number | string) => {
-    //     setLocalCart((currentLocalCart) => {
-    //         // Find the item to remove to get its quantity
-    //         const itemToRemove = currentLocalCart.items.find((item) => item.product.id === id);
-    //         const itemToRemoveQuantity = itemToRemove ? itemToRemove.quantity : 0;
-    //
-    //         return {
-    //             ...currentLocalCart,
-    //             // Filter out the item to remove
-    //             items: currentLocalCart.items.filter((item) => item.product.id !== id),
-    //             // Deduct the quantity of the removed item from the total
-    //             totalQuantity: currentLocalCart.totalQuantity - itemToRemoveQuantity,
-    //         };
-    //     });
-    // };
-    //
-    // useEffect(() => {
-    //     console.log('useEffect cart before', cart);
-    //     // Initialize local state with global state when the component mounts
-    //     syncCartWithGlobalState();
-    //     console.log('useEffect cart after', cart);
-    // }, [localCart]);
 
     const updateCartAtom = useUpdateCartAtom();
     const removeCartItemAtom = userRemoveCartItemFromCartAtom();
@@ -320,12 +258,13 @@ export const ShoppingCart = () => {
                             px="sm"
                             justify="flex-end"
                         >
-                            <Button
-                                onClick={() => {
-                                }}
-                            >
-                                Checkout
-                            </Button>
+                            <Link href="/user/checkout">
+                                <Button type="submit" onClick={() => close()}>
+
+                                    Checkout
+                                </Button>
+                            </Link>
+
                         </Flex>
                     </Stack>
                 </Stack>

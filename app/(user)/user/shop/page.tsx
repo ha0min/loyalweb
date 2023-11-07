@@ -1,22 +1,16 @@
 'use client';
 
 import {
-    Text,
     Image,
     Container,
     Grid,
-    Skeleton,
-    Card,
-    Group,
-    Badge,
-    Flex, Title, Checkbox, Divider, Select,
 } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
-import { List } from 'antd';
-import { randomId, useListState } from '@mantine/hooks';
-import { Suspense, useEffect, useState } from 'react';
+import { Skeleton } from 'antd';
+import { useEffect, useState } from 'react';
 import { ProductDetail } from '@/store/types/type';
-import BuyButton from '@/components/BuyNowButton/BuyNowButton';
+import ProductFilter from '@/components/ProductFilter';
+import ProductList from '@/components/ProductList';
 
 const Banner = () => (
     <Carousel slideSize="70%" height={200} loop slideGap="md" controlSize={30} withIndicators>
@@ -37,73 +31,6 @@ const Banner = () => (
         </Carousel.Slide>
     </Carousel>
 );
-
-type ProductFilterProps = {
-    categories: string[],
-    onCategoryChange: (selectedCategories: string[]) => void;
-};
-
-const ProductFilter = (props: ProductFilterProps) => {
-    console.log(props.categories);
-    // Create a state for categories with a checked property
-    const initialCategoryState = props.categories.map((category) => ({
-        label: category,
-        checked: false,
-        key: randomId(), // Assuming category names are unique
-    }));
-
-    const [categoryValues, categoryHandlers] = useListState(initialCategoryState);
-
-    const allChecked = categoryValues.every((value) => value.checked);
-    const indeterminate = categoryValues.some((value) => value.checked) && !allChecked;
-
-    const handleCategoryChange = (index, checked) => {
-        categoryHandlers.setItemProp(index, 'checked', checked);
-        // Trigger the parent component's category change handler
-        props.onCategoryChange(categoryValues.map((value) => value.checked ? value.label : null)
-            .filter(Boolean));
-    };
-
-    const items = categoryValues.map((value, index) => (
-        <Checkbox
-            mt="xs"
-            label={value.label}
-            key={value.key}
-            checked={value.checked}
-            onChange={(event) => handleCategoryChange(index, event.currentTarget.checked)}
-        />
-    ));
-
-    return (
-        <>
-            <Title order={4}>Ordering</Title>
-
-            <Divider my="sm" />
-
-            <Title order={4}>Filter by categories</Title>
-            <Checkbox
-                checked={allChecked}
-                indeterminate={indeterminate}
-                label="All categories"
-                onChange={() =>
-                    categoryHandlers.setState((current) =>
-                        current.map((value) => ({
-                            ...value,
-                            checked: !allChecked,
-                        }))
-                    )
-                }
-            />
-            <Group>{items}</Group>
-
-        </>
-    );
-};
-
-type ProductListProps = {
-    products?: ProductDetail[];
-    total?: number;
-};
 
 const mockData: ProductDetail[] =
     [
@@ -156,69 +83,16 @@ const mockData: ProductDetail[] =
 
 const total = mockData.length;
 
-const ProductList = (props: ProductListProps) =>
-    (
-        <div>
-            <List
-                pagination={{
-                    align: 'center',
-                    defaultPageSize: 12,
-                    hideOnSinglePage: true,
-                    pageSizeOptions: ['12', '24', '36'],
-                    total: props.total,
-                }}
-                dataSource={props.products}
-                grid={{
-                    gutter: 16,
-                    column: 2,
-                }}
-                renderItem={(item: ProductDetail) => (
-                    <List.Item>
-                        <div>
-                            <Card shadow="sm" padding="lg" radius="md" withBorder>
-                                <Card.Section>
-                                    <Image
-                                        src={item?.picture}
-                                        height={160}
-                                        alt="Norway"
-                                    />
-                                </Card.Section>
-
-                                <Group justify="flex-start" gap="sm" mt="md" mb="xs">
-                                    <Badge color="pink" variant="light">
-                                        On Sale
-                                    </Badge>
-                                    <Text size="md">{item?.name}</Text>
-                                </Group>
-
-                                <Flex
-                                    justify="flex-end"
-                                    align="center"
-                                    mb="md"
-                                >
-                                    <Text fw={700} size="xl" px="sm">
-                                        ${item?.price}
-                                    </Text>
-                                </Flex>
-
-                                <BuyButton
-                                    product={item}
-                                />
-                            </Card>
-                        </div>
-                    </List.Item>
-                )}
-            />
-        </div>
-    );
 const ShopPage = () => {
     // here we need to filter the products by category
     // and then display them in product list
     const [originalProducts, setOriginalProducts] = useState<ProductDetail[]>([]);
     const [products, setProducts] = useState<ProductDetail[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-    const [sortOrder, setSortOrder] = useState('asc');
+    const [sortOrder, setSortOrder] = useState<'asc' | 'des'>('asc');
     const [categories, setCategories] = useState<string[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isMounted, setIsMounted] = useState(false);
 
     // Fetch data from API
     useEffect(() => {
@@ -230,7 +104,12 @@ const ShopPage = () => {
             };
             setOriginalProducts(response.data.records);
             setProducts(response.data.records);
-            setCategories(Array.from(new Set(response.data.records.map(item => item.category))));
+            const allCategories = Array.from(
+                new Set(response.data.records.map(item => item.category)));
+            setCategories(allCategories);
+            setSelectedCategories(allCategories);
+            setIsLoading(false);
+            setIsMounted(true);
         };
 
         getProducts();
@@ -238,6 +117,9 @@ const ShopPage = () => {
 
     // Apply filters and sorting whenever the selected categories or sort order changes
     useEffect(() => {
+        console.log('useEffect before filtering', selectedCategories);
+        setIsLoading(true);
+
         let filteredProducts = [...originalProducts];
 
         if (selectedCategories.length > 0) {
@@ -245,9 +127,12 @@ const ShopPage = () => {
                 item => selectedCategories.includes(item.category));
         }
 
+        console.log('useEffect after filtering', filteredProducts.map(item => item.category));
+
         filteredProducts.sort((a, b) => sortOrder === 'asc' ? a.price - b.price : b.price - a.price);
 
         setProducts(filteredProducts);
+        setIsLoading(false);
     }, [selectedCategories, sortOrder, originalProducts]);
 
     return (
@@ -260,21 +145,24 @@ const ShopPage = () => {
                 </Grid>
 
                 <Grid>
-
                     <Grid.Col>
+
                         <Grid gutter="md">
-                            <Suspense fallback={<div>Loading...</div>}>
-                                <Grid.Col span={3}>
+                            <Grid.Col span={3}>
+                                <Skeleton loading={!isMounted}>
                                     <ProductFilter
                                         categories={categories}
+                                        onSortChange={setSortOrder}
                                         onCategoryChange={setSelectedCategories}
                                     />
-                                </Grid.Col>
+                                </Skeleton>
+                            </Grid.Col>
 
-                                <Grid.Col span={9}>
+                            <Grid.Col span={9}>
+                                <Skeleton loading={isLoading}>
                                     <ProductList products={products} total={products.length} />
-                                </Grid.Col>
-                            </Suspense>
+                                </Skeleton>
+                            </Grid.Col>
                         </Grid>
 
                     </Grid.Col>
