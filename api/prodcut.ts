@@ -43,7 +43,31 @@ export const useProductList = (props:ProductListRequest) => {
 
     const { data, error } = useSWR<ProductListData, Error>(
         key,
-        () => fetcher<ProductListData>('http://127.0.0.1:4523/m1/3497852-0-default/product/list/page/vo', props),
+        () => fetcher<ProductListData>('http://127.0.0.1:4523/m1/3497852-0-default/product/list/page/vo',
+            props),
+    );
+
+    return {
+        data,
+        isLoading: !error && !data,
+        isError: error,
+    };
+};
+
+export type PointsProductListRequest = {
+    pageSize: number;
+    page: number;
+    sortField?: string;
+    sortOrder?: string;
+};
+
+export const usePointsProductList = (props:PointsProductListRequest) => {
+    const key = JSON.stringify(['http://127.0.0.1:4523/m1/3497852-0-default/reward/list/page/vo', props]);
+
+    const { data, error } = useSWR<ProductListData, Error>(
+        key,
+        () => fetcher<ProductListData>('http://127.0.0.1:4523/m1/3497852-0-default/reward/list/page/vo',
+            props),
     );
 
     return {

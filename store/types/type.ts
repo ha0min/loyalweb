@@ -8,6 +8,7 @@ export type ProductDetail = {
     picture?: string;
     price?: number;
     stock?: number;
+    points?: number;
 };
 
 export type User = {

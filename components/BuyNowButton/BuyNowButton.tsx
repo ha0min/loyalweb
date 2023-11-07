@@ -9,6 +9,7 @@ import { useUpdateCartAtom } from '@/store/cartStoreUtils';
 
 const BuyButton = (props: {
     product: ProductDetail,
+    hideAddToCart?: boolean,
 }) => {
     // const onAddToCart = () => {
     //     // setChecked((v) => !v);
@@ -18,6 +19,7 @@ const BuyButton = (props: {
     //
     const onBuyNow = () => {
         console.log('buy now');
+        console.log('props', props);
     };
 
     const cart = useAtomValue(cartAtom);
@@ -33,6 +35,9 @@ const BuyButton = (props: {
 
             <Button
                 disabled={isInCart}
+                style={{
+                    display: props.hideAddToCart ? 'none' : 'block',
+                }}
                 variant="light"
                 onClick={() => updateCartAtom(props.product, 1)}
                 color="violet"

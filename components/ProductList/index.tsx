@@ -8,9 +8,16 @@ import BuyButton from '@/components/BuyNowButton/BuyNowButton';
 type ProductListProps = {
     products?: ProductDetail[];
     total?: number;
+    columns?: number;
+    isPointsList?: boolean;
+    hideAddToCart?: boolean;
 };
 
-const ProductOfDetail = (props: { product?: ProductDetail }) => {
+const ProductOfDetail = (props: {
+    product?: ProductDetail,
+    hideAddToCart?: boolean,
+    isPointsList?: boolean,
+}) => {
     const { product } = props;
     return (
         <div>
@@ -28,7 +35,10 @@ const ProductOfDetail = (props: { product?: ProductDetail }) => {
                             </Badge>
 
                             <Text size="lg" fw={500} mt="md">
-                                ${product.price.toFixed(2)}
+                                {props?.isPointsList ?
+                                    (`${product.points.toFixed(2)} Pts`)
+                                    : (`$${product.price.toFixed(2)}`)
+                                }
                             </Text>
                         </Stack>
                     </Grid.Col>
@@ -45,12 +55,14 @@ const ProductOfDetail = (props: { product?: ProductDetail }) => {
 
             <BuyButton
                 product={product}
+                hideAddToCart={props?.hideAddToCart}
             />
         </div>
     );
 };
 
 const ProductList = (props: ProductListProps) => {
+    console.log('productlist props', props);
     const [opened, {
         open,
         close,
@@ -60,7 +72,11 @@ const ProductList = (props: ProductListProps) => {
     return (
         <div>
             <Modal opened={opened} size="xl" onClose={close} title="Product Detailed" centered>
-                <ProductOfDetail product={product} />
+                <ProductOfDetail
+                    hideAddToCart={props?.hideAddToCart}
+                    isPointsList={props?.isPointsList}
+                    product={product}
+                />
             </Modal>
             <List
                 pagination={{
@@ -73,7 +89,7 @@ const ProductList = (props: ProductListProps) => {
                 dataSource={props.products}
                 grid={{
                     gutter: 16,
-                    column: 2,
+                    column: props.columns || 2,
                 }}
                 renderItem={(item: ProductDetail) => (
                     <List.Item>
@@ -109,11 +125,15 @@ const ProductList = (props: ProductListProps) => {
                                     mb="md"
                                 >
                                     <Text fw={700} size="xl" px="sm">
-                                        ${item?.price}
+                                        {props?.isPointsList ?
+                                            (`${item?.points.toFixed(2)} Pts`)
+                                            : (`$ ${item?.price.toFixed(2)}`)
+                                        }
                                     </Text>
                                 </Flex>
 
                                 <BuyButton
+                                    hideAddToCart={props?.hideAddToCart}
                                     product={item}
                                 />
                             </Card>

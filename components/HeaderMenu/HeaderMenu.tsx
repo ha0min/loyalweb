@@ -21,11 +21,6 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
-    IconNotification,
-    IconCode,
-    IconBook,
-    IconChartPie3,
-    IconFingerprint,
     IconCoin,
     IconChevronDown,
     IconHeart,
@@ -33,6 +28,7 @@ import {
     IconMessage,
     IconSettings,
     IconSwitchHorizontal,
+    IconHistory,
     IconLogout,
 } from '@tabler/icons-react';
 import Link from 'next/link';
@@ -42,36 +38,18 @@ import classes from './HeaderMenu.module.css';
 import { Logo } from '@/components/Logo/Logo';
 import { User } from '../../../fanlyweb/common/type';
 
-const mockdata = [
+const RewardsMenu = [
     {
-        icon: IconCode,
-        title: 'Open source',
-        description: 'This Pokémon’s cry is very loud and distracting',
+        icon: IconHistory,
+        title: 'Rewards History',
+        description: 'Look at your journey with us',
+        url: '/user/rewards/history',
     },
     {
         icon: IconCoin,
-        title: 'Free for everyone',
-        description: 'The fluid of Smeargle’s tail secretions changes',
-    },
-    {
-        icon: IconBook,
-        title: 'Documentation',
-        description: 'Yanma is capable of seeing 360 degrees without',
-    },
-    {
-        icon: IconFingerprint,
-        title: 'Security',
-        description: 'The shell’s rounded shape and the grooves on its.',
-    },
-    {
-        icon: IconChartPie3,
-        title: 'Analytics',
-        description: 'This Pokémon uses its flying ability to quickly chase',
-    },
-    {
-        icon: IconNotification,
-        title: 'Notifications',
-        description: 'Combusken battles with the intensely hot flames it spews',
+        title: 'Redeem Rewards',
+        description: 'Enjoy the rewards you have earned',
+        url: '/user/rewards/redeem',
     },
 ];
 
@@ -207,8 +185,13 @@ export default function HeaderMenu() {
     const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
     const theme = useMantineTheme();
 
-    const links = mockdata.map((item) => (
-        <UnstyledButton className={classes.subLink} key={item.title}>
+    const links = RewardsMenu.map((item) => (
+        <UnstyledButton
+            className={classes.subLink}
+            key={item.title}
+            component={Link}
+            href={item.url}
+        >
             <Group wrap="nowrap" align="flex-start">
                 <ThemeIcon size={34} variant="default" radius="md">
                     <item.icon
@@ -280,7 +263,10 @@ export default function HeaderMenu() {
                     </Group>
 
                     <Group visibleFrom="sm">
-                        <AvatarMenu name="test" avatar={"https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80'"} />
+                        <AvatarMenu
+name="test"
+                                    avatar={"https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80'"}
+                        />
                     </Group>
 
                     <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
