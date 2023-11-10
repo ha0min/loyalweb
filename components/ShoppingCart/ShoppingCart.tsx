@@ -159,7 +159,7 @@ export const ShoppingCart = () => {
             <FloatButton
                 icon={<ShoppingCartOutlined />}
                 badge={{
-                    count: cart.totalQuantity,
+                    count: cart?.totalQuantity || 0,
                     overflowCount: 10,
                     showZero: false,
                     color: 'purple',
@@ -186,19 +186,42 @@ export const ShoppingCart = () => {
 
                         <Stack>
                             <div>
-                                {cart.items.map((item) => item.product && (
+                                {cart.items && cart.items.length !== 0
+                                    && cart.items.map((item) => item.product && (
                                     <CartItem
                                         key={`cart-item-${item.product.id}-key`}
                                         item={item}
                                         removeCartItem={() => removeCartItemAtom(item.product)}
                                         updateCartItem={
                                             (newQuantity: number) => {
-                                                console.log('updateCartItem called with newQuantity', item.product.id, newQuantity);
+                                                console.log('updateCartItem called with newQuantity',
+                                                    item.product.id,
+newQuantity);
                                                 updateCartAtom(item.product, newQuantity);
                                             }
                                         }
                                     />
                                 ))}
+                                {cart.items && cart.items.length === 0 && (
+                                    <Stack
+                                        justify="center"
+                                        align="center"
+                                        h="100%"
+                                    >
+                                        <Text size="lg">Your cart is empty</Text>
+                                        <Link href="/user/product">
+                                            <Button
+                                                variant="outline"
+                                                c="purple"
+                                                size="sm"
+                                                radius="xl"
+                                                mt="sm"
+                                            >
+                                                <Text size="sm">Go to products</Text>
+                                            </Button>
+                                        </Link>
+                                    </Stack>
+                                )}
                             </div>
                         </Stack>
                     </ScrollArea.Autosize>

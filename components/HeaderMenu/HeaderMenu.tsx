@@ -23,20 +23,21 @@ import { useDisclosure } from '@mantine/hooks';
 import {
     IconCoin,
     IconChevronDown,
-    IconHeart,
-    IconStar,
     IconMessage,
     IconSettings,
-    IconSwitchHorizontal,
     IconHistory,
     IconLogout,
 } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import cx from 'clsx';
+import { useAtomValue } from 'jotai';
+import { useRouter } from 'next/navigation';
 import classes from './HeaderMenu.module.css';
 import { Logo } from '@/components/Logo/Logo';
 import { User } from '@/store/types/type';
+import { userAtom } from '@/store/userStore';
+import { useUserAtomLogout } from '@/store/userStoreUtils';
 
 const RewardsMenu = [
     {
@@ -53,9 +54,11 @@ const RewardsMenu = [
     },
 ];
 
-const AvatarMenu = (user: User) => {
+const AvatarMenu = ({ user }: { user: User }) => {
     const theme = useMantineTheme();
     const [userMenuOpened, setUserMenuOpened] = useState(false);
+    const logout = useUserAtomLogout();
+    const route = useRouter();
 
     return (
         <div>
@@ -72,9 +75,9 @@ const AvatarMenu = (user: User) => {
                         className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
                     >
                         <Group gap={7}>
-                            <Avatar src={user.avatar} alt={user.name} radius="xl" size={20} />
+                            <Avatar src={user.avatar} alt={user.username} radius="xl" size={20} />
                             <Text fw={500} size="sm" lh={1} mr={3}>
-                                {user.name}
+                                {user.username}
                             </Text>
                             <IconChevronDown
                                 style={{
@@ -89,34 +92,6 @@ const AvatarMenu = (user: User) => {
                 <Menu.Dropdown>
                     <Menu.Item
                         leftSection={
-                            <IconHeart
-                                style={{
-                                    width: rem(16),
-                                    height: rem(16),
-                                }}
-                                color={theme.colors.red[6]}
-                                stroke={1.5}
-                            />
-                        }
-                    >
-                        Liked posts
-                    </Menu.Item>
-                    <Menu.Item
-                        leftSection={
-                            <IconStar
-                                style={{
-                                    width: rem(16),
-                                    height: rem(16),
-                                }}
-                                color={theme.colors.yellow[6]}
-                                stroke={1.5}
-                            />
-                        }
-                    >
-                        Saved posts
-                    </Menu.Item>
-                    <Menu.Item
-                        leftSection={
                             <IconMessage
                                 style={{
                                     width: rem(16),
@@ -127,7 +102,7 @@ const AvatarMenu = (user: User) => {
                             />
                         }
                     >
-                        Your comments
+                        Your orders
                     </Menu.Item>
                     <Menu.Divider />
                     <Menu.Label>Settings</Menu.Label>
@@ -142,22 +117,15 @@ const AvatarMenu = (user: User) => {
                             />
                         }
                     >
-                        Account settings
+                        Profile settings
                     </Menu.Item>
                     <Menu.Item
-                        leftSection={
-                            <IconSwitchHorizontal
-                                style={{
-                                    width: rem(16),
-                                    height: rem(16),
-                                }}
-                                stroke={1.5}
-                            />
-                        }
-                    >
-                        Change account
-                    </Menu.Item>
-                    <Menu.Item
+                        onClick={() => {
+                            console.log('logout');
+                            console.log(user);
+                            logout();
+                            route.push('/start');
+                        }}
                         leftSection={
                             <IconLogout
                                 color="red"
@@ -183,6 +151,7 @@ export default function HeaderMenu() {
         close: closeDrawer,
     }] = useDisclosure(false);
     const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
+    const user = useAtomValue(userAtom);
     const theme = useMantineTheme();
 
     const links = RewardsMenu.map((item) => (
@@ -264,8 +233,7 @@ export default function HeaderMenu() {
 
                     <Group visibleFrom="sm">
                         <AvatarMenu
-name="test"
-                                    avatar={"https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80'"}
+                            user={user}
                         />
                     </Group>
 
