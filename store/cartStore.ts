@@ -1,8 +1,5 @@
-import { atom, useSetAtom } from 'jotai';
-import { ProductDetail, User } from '../type';
-
-export const userAtom
-    = atom<User | null>(null);
+import { atom } from 'jotai';
+import { ProductDetail } from '../type';
 
 export type cartAtomType = {
     items: { product: ProductDetail, quantity: number }[],

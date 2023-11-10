@@ -5,7 +5,7 @@ import { Divider, Image, Text, Paper, Title, Container, Flex } from '@mantine/co
 import { Skeleton } from 'antd';
 import { ProductDetail } from '@/store/types/type';
 import ProductList from '@/components/ProductList';
-import { usePointsProductList } from '@/api/prodcut';
+import { usePointsProductList } from '@/api/product';
 
 const RewardsRedeemPage = () => {
     const [products, setProducts] = useState<ProductDetail[]>([]);

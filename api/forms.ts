@@ -63,18 +63,3 @@ export const useSubmitOrder = () => {
 
     return { submitOrder, orderResponse, error, isLoading };
 };
-
-export const useUserRegister = () => {
-    const register = async (username: string, password: string) => {
-        const response = await fetch('/api/register', {
-            method: 'POST',
-            body: JSON.stringify({
-                username,
-                password,
-            }),
-        });
-        const data = await response.json();
-        return data;
-    };
-    return { register };
-};

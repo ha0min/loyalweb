@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { ProductDetail } from '@/store/types/type';
 import ProductFilter from '@/components/ProductFilter';
 import ProductList from '@/components/ProductList';
-import { useProductList } from '@/api/prodcut';
+import { useProductList } from '@/api/product';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
 
 const Banner = () => (
