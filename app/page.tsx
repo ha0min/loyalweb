@@ -1,25 +1,34 @@
 'use client';
 
-import { Button, Center, Container, Modal, Paper, rem } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { Button, Center, Container, Paper, rem } from '@mantine/core';
 import { IconArrowRight } from '@tabler/icons-react';
 import Link from 'next/link';
+import { useAtomValue } from 'jotai';
+import { useEffect } from 'react';
 import { Welcome } from '../components/Welcome/Welcome';
-import AuthenticationForm from '@/components/AuthenticationForm/AuthenticationForm';
 import Footer from '@/components/Footer/Footer';
 import { FeaturesCards } from '@/components/FeatureCards';
+import { userAtom } from '@/store/userStore';
 
 const WelcomePage = () => {
-    const [opened, {
-        open,
-        close,
-    }] = useDisclosure(false);
+    const user = useAtomValue(userAtom);
+
+    useEffect(() => {
+        console.log(user);
+    }, []);
 
     return (
         <Container p="md">
             <Welcome />
             <Center mb={rem('70px')}>
-                <Button rightSection={<IconArrowRight size={30} />} onClick={open} size="xl" radius="xl" variant="primary">
+                <Button
+                    rightSection={<IconArrowRight size={30} />}
+                    component={Link}
+                    href="/start"
+                    size="xl"
+                    radius="xl"
+                    variant="primary"
+                >
                     Get Started
                 </Button>
                 <Button
@@ -33,19 +42,6 @@ const WelcomePage = () => {
                     Continue as Guest
                 </Button>
             </Center>
-            <Modal
-                transitionProps={{ transition: 'pop' }}
-                opened={opened}
-                onClose={close}
-                centered
-                overlayProps={{
-                    blur: 3,
-                    backgroundOpacity: 0.3,
-                    color: 'white',
-                }}
-            >
-                <AuthenticationForm noPadding noShadow />
-            </Modal>
             <Paper shadow="md" radius="md" p="md">
                 <FeaturesCards />
             </Paper>

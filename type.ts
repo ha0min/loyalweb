@@ -11,7 +11,8 @@ export type ProductDetail = {
 };
 
 export type User = {
-    name?: string,
+    id?: number,
+    username?: string,
     email?: string,
     avatar?: string,
     phone?: string,
