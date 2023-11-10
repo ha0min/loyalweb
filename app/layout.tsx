@@ -1,3 +1,5 @@
+'use client';
+
 import '@mantine/core/styles.css';
 import '@mantine/carousel/styles.css';
 
@@ -18,9 +20,11 @@ export default function RootLayout({ children }: { children: any }) {
             />
         </head>
         <body>
+        <Provider>
             <MantineProvider theme={theme}>
                     {children}
             </MantineProvider>
+        </Provider>
         </body>
         </html>
     );

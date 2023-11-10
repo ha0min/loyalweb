@@ -2,21 +2,19 @@
 
 import Footer from '@/components/Footer/Footer';
 import HeaderMenu from '@/components/HeaderMenu/HeaderMenu';
-import { ShoppingCart } from '@/components/ShoppingCart/ShoppingCart';
 import withAuth from '@/components/WithAuth';
 
-const UserLayout = ({
+const AdminLayout = ({
                         children,
                     }: {
     children: React.ReactNode
 }) => (
 
-        <div>
-            <HeaderMenu />
-            {children}
-            <Footer />
-            <ShoppingCart />
-        </div>
-    );
+    <div>
+        <HeaderMenu />
+        {children}
+        <Footer />
+    </div>
+);
 
-export default withAuth(UserLayout);
+export default withAuth(AdminLayout);
