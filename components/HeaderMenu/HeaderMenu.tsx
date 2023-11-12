@@ -229,6 +229,10 @@ export default function HeaderMenu() {
                                 </SimpleGrid>
                             </HoverCard.Dropdown>
                         </HoverCard>
+
+                        <Link href="/user/orders" className={classes.link}>
+                            Orders
+                        </Link>
                     </Group>
 
                     <Group visibleFrom="sm">

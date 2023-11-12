@@ -3,6 +3,7 @@
 import { useAtomValue } from 'jotai';
 import { Button, Flex } from '@mantine/core';
 import { IconCheck, IconPlus } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
 import { ProductDetail } from '@/store/types/type';
 import { cartAtom } from '@/store/cartStore';
 import { useUpdateCartAtom } from '@/store/cartStoreUtils';
@@ -10,16 +11,19 @@ import { useUpdateCartAtom } from '@/store/cartStoreUtils';
 const BuyButton = (props: {
     product: ProductDetail,
     hideAddToCart?: boolean,
+    isPointReedem?: boolean,
 }) => {
-    // const onAddToCart = () => {
-    //     // setChecked((v) => !v);
-    //     props.onAddCartClick();
-    //     console.log('add to cart icon clicked,', props.id);
-    // };
-    //
+    const router = useRouter();
     const onBuyNow = () => {
         console.log('buy now');
         console.log('props', props);
+        router.push(`/user/checkout/${props.product.id}`);
+    };
+
+    const onRedeemNow = () => {
+        console.log('redeem now');
+        console.log('props', props);
+        router.push(`/user/redeem/${props.product.id}`);
     };
 
     const cart = useAtomValue(cartAtom);
@@ -57,13 +61,13 @@ const BuyButton = (props: {
                     (event) => {
                         event.preventDefault();
                         event.stopPropagation();
-                        onBuyNow();
+                        props.isPointReedem ? onRedeemNow() : onBuyNow();
                     }}
                 color="violet"
                 ml="md"
                 radius="xl"
             >
-                Buy Now
+                {props.isPointReedem ? 'Redeem Now' : 'Buy Now'}
             </Button>
         </Flex>
 
