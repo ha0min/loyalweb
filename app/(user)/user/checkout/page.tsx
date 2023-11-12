@@ -11,15 +11,17 @@ import {
     Button,
     Container,
     Paper,
-    Grid, Image, Stepper, TextInput, Group, JsonInput, Loader,
+    Grid, Image, Stepper, TextInput, Group, JsonInput,
 } from '@mantine/core';
 import { IconSparkles } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
-import { List, Result } from 'antd';
+import { List } from 'antd';
 import { useForm } from '@mantine/form';
 import { cartAtom, cartAtomType } from '@/store/cartStore';
 import { SubmitOrderFormValues, useSubmitOrder } from '@/api/forms';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
+import { PaymentMimic } from '@/components/Payment';
+import { CheckoutResult } from '@/components/CheckoutResult';
 
 const ItemContent = (props: { cartValue: cartAtomType }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -79,92 +81,6 @@ const ItemContent = (props: { cartValue: cartAtomType }) => {
     );
 };
 
-type CheckoutResultProps = {
-    success: boolean;
-    message?: string;
-    pointsEarned?: number;
-    currentPoints?: number;
-    onClick: () => void;
-};
-const CheckoutResult = (props: CheckoutResultProps) => (
-    <Result
-        status={props.success ? 'success' : 'error'}
-        icon={props.success ?
-            <Flex
-                align="center"
-                justify="center"
-            >
-                <Image
-                    src="https://em-content.zobj.net/source/telegram/358/party-popper_1f389.webp"
-                    alt="party-popper"
-                    w={120}
-                    h={120}
-                    style={{ alignItems: 'center' }}
-                />
-            </Flex>
-            :
-            <Flex
-                align="center"
-                justify="center"
-            >
-                <Image
-                    src="https://em-content.zobj.net/source/telegram/358/smiling-face-with-tear_1f972.webp"
-                    alt="sad-face"
-                    w={120}
-                    h={120}
-                />
-            </Flex>
-        }
-        title={props.success ? 'Thank you for your order!' : 'Failed to submit the order'}
-        subTitle={props.success ? (
-                <div key="success-subtitle">
-                    <Flex
-                        align="center"
-                        justify="center"
-                    >
-                        <ActionIcon
-                            variant="transparent"
-                            aria-label="Gradient action icon"
-                            gradient={{
-                                from: 'blue',
-                                to: 'grape',
-                                deg: 165,
-                            }}
-                        >
-
-                            <IconSparkles
-                                stroke={1.5}
-                            />
-                        </ActionIcon>
-
-                        <Text
-                            c="dimmed"
-                            gradient={{
-                                from: 'blue',
-                                to: 'grape',
-                                deg: 165,
-                            }}
-                            variant="gradient"
-                        >
-                            Earning points: {props.pointsEarned},
-                            you have {props.currentPoints} points now.
-                        </Text>
-
-                    </Flex>
-                </div>
-
-            ) :
-            props.message
-        }
-        extra={
-            [
-                <Button onClick={props.onClick} size="lg" variant="light">
-                    {props.success ? 'Check your order' : 'Try again'}
-                </Button>,
-            ]
-        }
-    />
-);
 const CheckoutPage = () => {
     const [active, setActive] = useState(0);
     const cartValue = useAtomValue(cartAtom);
@@ -262,14 +178,7 @@ const CheckoutPage = () => {
                 </Stepper.Step>
 
                 <Stepper.Step label="Payment">
-                    <Paper w="100%" shadow="xs" radius="lg" withBorder p="md">
-                        <Stack align="center" my="xl">
-                            <Loader size={50} />
-                            <Text fw={500} size="xl">
-                                Mimic Payment here...
-                            </Text>
-                        </Stack>
-                    </Paper>
+                    <PaymentMimic />
                 </Stepper.Step>
 
                 <Stepper.Completed>
