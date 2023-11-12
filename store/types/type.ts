@@ -22,6 +22,24 @@ export type User = {
     points?: number,
 };
 
+export type OrderDetail = {
+    id?: number,
+    productVO?: ProductDetail,
+    number?: number,
+    amount?: number,
+};
+
+export type Order = {
+    id?: number,
+    userId?: number,
+    amount?: number,
+    status?: number,
+    createTime?: string,
+    updateTime?: string,
+    remark?: string,
+    orderDetailVOList?: OrderDetail[],
+};
+
 export interface BaseResponse<TData> {
     code: number;
     data: TData;

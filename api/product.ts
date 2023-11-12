@@ -16,6 +16,21 @@ export type ProductListData = {
     records: ProductDetail[];
 };
 
+export const useProductDetail = (id: number) => {
+    const key = JSON.stringify(['/api/product/get/vo', id]);
+
+    const { data, error } = useSWR<ProductDetail, Error>(
+        key,
+        () => fetcher<ProductDetail>('/api/product/get/vo', 'GET', [id]),
+    );
+
+    return {
+        data,
+        isLoading: !error && !data,
+        isError: error,
+    };
+};
+
 export const useProductList = (props:ProductListRequest) => {
     const key = JSON.stringify(['/api/product/list/page/vo', props]);
 
