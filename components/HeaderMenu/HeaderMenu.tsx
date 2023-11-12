@@ -260,10 +260,13 @@ export default function HeaderMenu() {
                     <Link href="/" className={classes.link}>
                         Home
                     </Link>
+                    <Link href="/user/shop" className={classes.link}>
+                        Shop
+                    </Link>
                     <UnstyledButton className={classes.link} onClick={toggleLinks}>
                         <Center inline>
                             <Box component="span" mr={5}>
-                                Features
+                                Rewards
                             </Box>
                             <IconChevronDown
                                 style={{
@@ -278,10 +281,13 @@ export default function HeaderMenu() {
 
                     <Divider my="sm" />
 
-                    <Group justify="center" grow pb="xl" px="md">
-                        <Button variant="default" component={Link} href="login">
-                            Get Started
-                        </Button>
+                    <Link href="/user/orders" className={classes.link}>
+                        Orders
+                    </Link>
+                    <Group visibleFrom="sm">
+                        <AvatarMenu
+                            user={user}
+                        />
                     </Group>
                 </ScrollArea>
             </Drawer>

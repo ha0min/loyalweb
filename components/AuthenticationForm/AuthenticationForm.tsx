@@ -21,7 +21,8 @@ export default function AuthenticationForm({
                                                noSubmit,
                                                style,
                                            }: AuthenticationFormProps) {
-    const [formType, setFormType] = useState<'register' | 'login'>('register');
+    const [formType, setFormType] =
+        useState<'register' | 'login'>('login');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error>(null);
 
@@ -43,7 +44,8 @@ export default function AuthenticationForm({
         setError(null);
     };
 
-    const form = useForm({
+    const form =
+        useForm({
         initialValues: {
             username: '',
             email: '',

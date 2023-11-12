@@ -209,7 +209,7 @@ newQuantity);
                                         h="100%"
                                     >
                                         <Text size="lg">Your cart is empty</Text>
-                                        <Link href="/user/product">
+                                        <Link href="/user/shop">
                                             <Button
                                                 variant="outline"
                                                 c="purple"

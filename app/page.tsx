@@ -31,16 +31,6 @@ const WelcomePage = () => {
                 >
                     Get Started
                 </Button>
-                <Button
-                    component={Link}
-                    mx="md"
-                    href="/user"
-                    rightSection={<IconArrowRight size={30} />}
-                    size="xl"
-                    radius="xl"
-                >
-                    Continue as Guest
-                </Button>
             </Center>
             <Paper shadow="md" radius="md" p="md">
                 <FeaturesCards />
