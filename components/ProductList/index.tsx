@@ -54,6 +54,7 @@ const ProductOfDetail = (props: {
             </Stack>
 
             <BuyButton
+                isPointRedeem={props?.isPointsList}
                 product={product}
                 hideAddToCart={props?.hideAddToCart}
             />
@@ -136,6 +137,7 @@ const ProductList = (props: ProductListProps) => {
                                 <BuyButton
                                     hideAddToCart={props?.hideAddToCart}
                                     product={item}
+                                    isPointRedeem={props?.isPointsList}
                                 />
                             </Card>
                         </div>

@@ -11,7 +11,7 @@ import { useUpdateCartAtom } from '@/store/cartStoreUtils';
 const BuyButton = (props: {
     product: ProductDetail,
     hideAddToCart?: boolean,
-    isPointReedem?: boolean,
+    isPointRedeem?: boolean,
 }) => {
     const router = useRouter();
     const onBuyNow = () => {
@@ -23,7 +23,7 @@ const BuyButton = (props: {
     const onRedeemNow = () => {
         console.log('redeem now');
         console.log('props', props);
-        router.push(`/user/redeem/${props.product.id}`);
+        router.push(`/user/rewards/redeem/${props.product.id}`);
     };
 
     const cart = useAtomValue(cartAtom);
@@ -61,13 +61,13 @@ const BuyButton = (props: {
                     (event) => {
                         event.preventDefault();
                         event.stopPropagation();
-                        props.isPointReedem ? onRedeemNow() : onBuyNow();
+                        props?.isPointRedeem ? onRedeemNow() : onBuyNow();
                     }}
                 color="violet"
                 ml="md"
                 radius="xl"
             >
-                {props.isPointReedem ? 'Redeem Now' : 'Buy Now'}
+                {props?.isPointRedeem ? 'Redeem' : 'Buy Now'}
             </Button>
         </Flex>
 

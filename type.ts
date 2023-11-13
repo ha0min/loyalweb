@@ -6,6 +6,7 @@ export type ProductDetail = {
     id?: number;
     name?: string;
     picture?: string;
+    points?: number;
     price?: number;
     stock?: number;
 };

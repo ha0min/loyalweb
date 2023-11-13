@@ -69,3 +69,18 @@ export const usePointsProductList = (props:PointsProductListRequest) => {
         isError: error,
     };
 };
+
+export const usePointsProductDetail = (id: number) => {
+    const key = JSON.stringify(['/api/reward/get/vo', id]);
+
+    const { data, error } = useSWR<ProductDetail, Error>(
+        key,
+        () => fetcher<ProductDetail>('/api/reward/get/vo', 'GET', [id]),
+    );
+
+    return {
+        data,
+        isLoading: !error && !data,
+        isError: error,
+    };
+};

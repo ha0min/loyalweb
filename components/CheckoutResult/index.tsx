@@ -8,6 +8,7 @@ export type CheckoutResultProps = {
     pointsEarned?: number;
     currentPoints?: number;
     onClick: () => void;
+    isRedeem?: boolean;
 };
 
 export const CheckoutResult = (props: CheckoutResultProps) => (
@@ -15,6 +16,7 @@ export const CheckoutResult = (props: CheckoutResultProps) => (
         status={props.success ? 'success' : 'error'}
         icon={props.success ?
             <Flex
+                key="success-icon"
                 align="center"
                 justify="center"
             >
@@ -28,6 +30,7 @@ export const CheckoutResult = (props: CheckoutResultProps) => (
             </Flex>
             :
             <Flex
+                key="error-icon"
                 align="center"
                 justify="center"
             >
@@ -70,7 +73,7 @@ export const CheckoutResult = (props: CheckoutResultProps) => (
                             }}
                             variant="gradient"
                         >
-                            Earning points: {props.pointsEarned},
+                            {props.isRedeem ? 'You have redeemed' : 'You have earned'} {props.pointsEarned} points,
                             you have {props.currentPoints} points now.
                         </Text>
 
