@@ -17,6 +17,7 @@ import { IconSparkles } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { List } from 'antd';
 import { useForm } from '@mantine/form';
+import { useRouter } from 'next/navigation';
 import { cartAtom, cartAtomType } from '@/store/cartStore';
 import { SubmitOrderFormValues, useSubmitOrder } from '@/api/forms';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
@@ -132,6 +133,8 @@ const CheckoutPage = () => {
 
     const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
 
+    const route = useRouter();
+
     useEffect(() => {
         form.setValues({
             orderDetailAddRequestList: transformedOrderDetails,
@@ -190,6 +193,7 @@ const CheckoutPage = () => {
                             currentPoints={parseInt(orderResponse.data.points, 10)}
                             onClick={() => {
                                 console.log('result clicked');
+                                route.push(`/user/orders/${orderResponse.data.id}`);
                             } /* Implement retry logic or leave empty if not applicable */}
                         />
                     ) : (
