@@ -40,12 +40,14 @@ const withAuth = (WrappedComponent) => (props) => {
 export const withAdminAuth = (WrappedComponent) => (props) => {
     const { currentUser, isCurrentUserLoading, currentError } = useCurrentUser();
     const router = useRouter();
+    const stateUser = useAtomValue(userAtom);
 
     useEffect(() => {
-        if (!isCurrentUserLoading && !currentUser) {
+        if (!isCurrentUserLoading && !currentUser && !stateUser?.username) {
             router.push('/start'); // Redirect to login if not authenticated
         }
-        if (!isCurrentUserLoading && currentUser && !currentUser.userRole.includes('admin')) {
+        if (!isCurrentUserLoading && currentUser && !currentUser.userRole.includes('admin')
+            && stateUser?.username && !stateUser?.userRole?.includes('admin')) {
             notification.error({
                 message: 'Access denied',
                 description: 'You are not authorized to view this page',

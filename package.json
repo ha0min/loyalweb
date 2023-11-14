@@ -20,6 +20,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@ant-design/pro-components": "^2.6.35",
+    "@ant-design/pro-layout": "^7.17.13",
     "@mantine/carousel": "^7.1.7",
     "@mantine/core": "7.1.7",
     "@mantine/form": "^7.1.7",

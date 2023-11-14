@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { User } from '@/type';
 import { fetcher } from '@/api/common';
 
@@ -92,18 +92,40 @@ export const useLogin = () => {
 };
 
 export const useCurrentUser = () => {
-    const key = JSON.stringify(['/api/user/get/login']);
-    const { data, error } = useSWR<User, Error>(
-        key,
-        () => fetcher<User>('/api/user/get/login',
-            'GET',
-            null),
-    );
+    // const key = JSON.stringify(['/api/user/get/login']);
+    // const { data, error } = useSWR<User, Error>(
+    //     key,
+    //     () => fetcher<User>('/api/user/get/login',
+    //         'GET',
+    //         null),
+    // );
+
+    // TODO: remove mock
+    const [currentUser, setCurrentUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const mockUser = {
+            id: 1,
+            avatar: 'https://i.pravatar.cc/300',
+            username: 'mock',
+            email: 'abc@fanly.dev',
+            userRole: 'user',
+            points: 60,
+        };
+
+        const timeoutId = setTimeout(() => {
+            setCurrentUser(mockUser);
+            setIsLoading(false);
+        }, 1000);
+
+        return () => clearTimeout(timeoutId);
+    }, []);
 
     return {
-        currentUser: data,
-        isCurrentUserLoading: !error && !data,
-        currentError: error,
-        isAdmin: data?.userRole !== 'user',
+        currentUser,
+        isCurrentUserLoading: isLoading, //!error && !data,
+        currentError: null, //error,
+        isAdmin: false, //data?.userRole !== 'user',
     };
 };
