@@ -47,6 +47,7 @@ export default function AuthenticationForm({
     const form =
         useForm({
         initialValues: {
+            nickname: '',
             username: '',
             email: '',
             password: '',
@@ -157,10 +158,10 @@ export default function AuthenticationForm({
                     <TextInput
                         data-autofocus
                         required
-                        placeholder="Username"
-                        label="Username"
+                        placeholder="Your Nickname"
+                        label="Nickname"
                         leftSection={<IconUser size={16} stroke={1.5} />}
-                        {...form.getInputProps('username')}
+                        {...form.getInputProps('nickname')}
                     />
 
                 )}
@@ -168,8 +169,8 @@ export default function AuthenticationForm({
                 <TextInput
                     mt="md"
                     required
-                    placeholder="Your Account"
-                    label="Username"
+                    placeholder="Account"
+                    label="Account"
                     leftSection={<IconAt size={16} stroke={1.5} />}
                     {...form.getInputProps('username')}
                 />
@@ -210,7 +211,7 @@ export default function AuthenticationForm({
                                 : "Don't have an account? Register"}
                         </Anchor>
 
-                        <Button color="blue" type="submit" loading={loading}>
+                        <Button type="submit" loading={loading}>
                             {formType === 'register' ? 'Register' : 'Login'}
                         </Button>
                     </Group>

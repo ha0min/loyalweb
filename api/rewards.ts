@@ -1,6 +1,6 @@
-import useSWR from "swr";
-import {fetcher} from "@/api/common";
-import {RewardRecord} from "@/type";
+import useSWR from 'swr';
+import { fetcher } from '@/api/common';
+import { RewardRecord } from '@/type';
 
 type RewardsHistoryRequest = {
     pageSize: number;
