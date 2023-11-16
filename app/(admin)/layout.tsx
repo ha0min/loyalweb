@@ -1,9 +1,11 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { CrownFilled, DashboardFilled, SignalFilled, TabletFilled } from '@ant-design/icons';
+import { CrownFilled, DashboardFilled, ShopFilled, SignalFilled, TabletFilled } from '@ant-design/icons';
 import Link from 'next/link';
 import { useState } from 'react';
+import { App, ConfigProvider } from 'antd';
+import enUSIntl from 'antd/lib/locale/en_US';
 import Footer from '@/components/Footer/Footer';
 import { withAdminAuth } from '@/components/WithAuth';
 import { NavbarMinimal } from '@/components/Navbar';
@@ -43,6 +45,11 @@ const AdminLayout = ({
                     ],
                 },
                 {
+                    path: '/admin/products',
+                    icon: <ShopFilled />,
+                    name: 'Products',
+                },
+                {
                     name: 'Orders',
                     icon: <TabletFilled />,
                     path: '/admin/orders',
@@ -52,30 +59,37 @@ const AdminLayout = ({
                     icon: <SignalFilled />,
                     name: 'Analytics',
                 },
+
             ],
         }
     );
 
     return (
         <div>
-            <ProLayout
-                menuItemRender={
-                    (item, dom) => (
-                        <Link
-                            href={item.path}
-                        >
-                            {dom}
-                        </Link>
-                    )
-                }
-                route={routes}
-                title="Fanly"
-                logo={<Logo />}
-                locale="en-US"
-                footerRender={() => <Footer />}
+            <ConfigProvider
+                locale={enUSIntl}
             >
-                {children}
-            </ProLayout>
+                <App>
+                    <ProLayout
+                        menuItemRender={
+                            (item, dom) => (
+                                <Link
+                                    href={item.path}
+                                >
+                                    {dom}
+                                </Link>
+                            )
+                        }
+                        route={routes}
+                        title="Fanly"
+                        logo={<Logo />}
+                        locale="en-US"
+                        footerRender={() => <Footer />}
+                    >
+                        {children}
+                    </ProLayout>
+                </App>
+            </ConfigProvider>
         </div>
     );
 };
