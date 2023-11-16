@@ -38,6 +38,7 @@ import { Logo } from '@/components/Logo/Logo';
 import { User } from '@/store/types/type';
 import { userAtom } from '@/store/userStore';
 import { useUserAtomLogout } from '@/store/userStoreUtils';
+import {useLogout} from "@/api/user";
 
 const RewardsMenu = [
     {
@@ -57,8 +58,9 @@ const RewardsMenu = [
 const AvatarMenu = ({ user }: { user: User }) => {
     const theme = useMantineTheme();
     const [userMenuOpened, setUserMenuOpened] = useState(false);
-    const logout = useUserAtomLogout();
+    const atomLogout = useUserAtomLogout();
     const route = useRouter();
+    const {logout} = useLogout();
 
     return (
         <div>
@@ -123,8 +125,12 @@ const AvatarMenu = ({ user }: { user: User }) => {
                         onClick={() => {
                             console.log('logout');
                             console.log(user);
-                            logout();
-                            route.push('/start');
+                            atomLogout();
+                            logout().then(() => {
+                                route.push('/');
+                            }).catch((err) => {
+                                console.log(err);
+                            });
                         }}
                         leftSection={
                             <IconLogout
