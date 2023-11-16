@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
 import { Anchor, Button, Checkbox, Group, Paper, PasswordInput, TextInput } from '@mantine/core';
-import { IconAt, IconLock, IconUser } from '@tabler/icons-react';
+import {IconAt, IconEmpathize, IconLock, IconUser} from '@tabler/icons-react';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { notification } from 'antd';
@@ -89,6 +89,7 @@ export default function AuthenticationForm({
         // setError(null);
         if (formType === 'register') {
             await register(form.values.username,
+                form.values.nickname,
                 form.values.password,
                 form.values.confirmPassword,
                 form.values.email);
@@ -160,8 +161,21 @@ export default function AuthenticationForm({
                         required
                         placeholder="Your Nickname"
                         label="Nickname"
-                        leftSection={<IconUser size={16} stroke={1.5} />}
+                        leftSection={<IconEmpathize size={16} stroke={1.5} />}
                         {...form.getInputProps('nickname')}
+                    />
+
+                )}
+
+                {formType === 'register' && (
+                    <TextInput
+                        data-autofocus
+                        required
+                        placeholder="Your Email"
+                        label="Email"
+                        mt="md"
+                        leftSection={<IconAt size={16} stroke={1.5} />}
+                        {...form.getInputProps('email')}
                     />
 
                 )}
@@ -171,7 +185,7 @@ export default function AuthenticationForm({
                     required
                     placeholder="Account"
                     label="Account"
-                    leftSection={<IconAt size={16} stroke={1.5} />}
+                    leftSection={<IconUser size={16} stroke={1.5} />}
                     {...form.getInputProps('username')}
                 />
 

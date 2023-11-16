@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Title, Text, Paper, Group, ThemeIcon, SimpleGrid, Flex, Grid } from '@mantine/core';
+import { Container, Title, Text, Paper, Image, ThemeIcon, SimpleGrid, Flex, Grid } from '@mantine/core';
 import { useState, useMemo } from 'react';
 import dayjs from 'dayjs';
 import { IconArrowDownRight, IconArrowUpRight } from '@tabler/icons-react';
@@ -86,11 +86,28 @@ const RewardsHistoryPage = () => {
 
     return (
         <Container p="md">
-            <PageTitle
-                title="Check your rewards history"
-                subtitle={`Current Points: ${currentUser?.points ?? 'error'}`}
-                url="https://em-content.zobj.net/source/telegram/358/magnifying-glass-tilted-right_1f50e.webp"
-            />
+            <Flex
+                justify="flex-start"
+                align="center"
+                gap="md"
+                my="md"
+            >
+                <Image
+                    src="https://em-content.zobj.net/source/telegram/358/magnifying-glass-tilted-right_1f50e.webp"
+                    alt="Check your rewards history"
+                    w={80}
+                    h={80}
+                    radius="lg"
+                />
+
+                <div>
+                    <Title>Let&apos;s celebrate your loyalty!</Title>
+                    <Skeleton loading={currentUser !== null || isLoading} active>
+                        <Text fw={500} size="lg">You currently have: {currentUser?.points} points.</Text>
+                    </Skeleton>
+                </div>
+            </Flex>
+
             <Skeleton
                 loading={isCurrentUserLoading || isLoading}
                 active

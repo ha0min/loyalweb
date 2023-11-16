@@ -1,7 +1,7 @@
 'use client';
 
 import {
-     Container, Center, Box, Grid,
+    Container, Center, Box, Grid, Paper,
 } from '@mantine/core';
 import Link from 'next/link';
 import { Logo } from '@/components/Logo/Logo';
@@ -9,9 +9,11 @@ import AuthenticationForm from '@/components/AuthenticationForm/AuthenticationFo
 import './start.css';
 
 const Page = () => (
+    <Paper
+        className="background"
+    >
         <Container
             p="md"
-            className="background"
         >
             <Grid grow>
                 <Grid.Col px={50} py={50} mb={80}>
@@ -31,6 +33,8 @@ const Page = () => (
                     </Box>
                 </Grid.Col>
             </Grid>
-        </Container>);
+        </Container>
+    </Paper>
+        );
 
 export default Page;

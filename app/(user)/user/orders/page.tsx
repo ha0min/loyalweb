@@ -1,6 +1,6 @@
 'use client';
 
-import { ActionIcon, Avatar, Button, Divider, Flex, Grid, Paper, Stack, Text } from '@mantine/core';
+import {ActionIcon, Avatar, Button, Container, Divider, Flex, Grid, Paper, Stack, Text} from '@mantine/core';
 import { Result, Skeleton } from 'antd';
 import { useEffect } from 'react';
 import { IconButton } from '@storybook/components';
@@ -28,7 +28,8 @@ const Page = () => {
     }, [data]);
 
     return (
-        <Paper p="md" radius="md">
+        <Container p="md">
+
             <PageTitle
                 title="Order Histroy"
                 subtitle="Your order history"
@@ -90,7 +91,7 @@ const Page = () => {
                 </Grid>
 
             </Skeleton>
-        </Paper>
+        </Container>
     );
 };
 

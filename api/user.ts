@@ -8,11 +8,11 @@ export const useRegister = () => {
     const [error, setError] = useState<Error>(null);
     const [userSession, setUserSession] = useState<User>(null);
 
-    const register = async (account, password, checkPassword, email) => {
+    const register = async (account, username, password, checkPassword, email) => {
         setIsRegisterLoading(true);
         setError(null);
         // register params log
-        console.log('register params', account, password, checkPassword, email);
+        console.log('register params', account, username, password, checkPassword, email);
 
         try {
             const response = await fetch('/api/user/register', {
@@ -20,7 +20,7 @@ export const useRegister = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ account, password, checkPassword, email }),
+                body: JSON.stringify({ account, username, password, checkPassword, email }),
             });
 
             if (!response.ok) {

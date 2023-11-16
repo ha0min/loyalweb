@@ -2,6 +2,7 @@
     background: linear-gradient(84deg, #6a11cb, #296dde);
     background-size: 400% 400%;
     height: 100vh;
+    width: 100vw;
 
     -webkit-animation: AnimationName 4s ease infinite;
     -moz-animation: AnimationName 4s ease infinite;

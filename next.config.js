@@ -37,7 +37,7 @@ module.exports = withBundleAnalyzer({
     return [
       {
         source: '/api/:path*',
-        destination: process.env.API_URL || 'https://mock.apifox.com/m1/3497852-0-default/:path*',
+        destination: `${process.env.API_URL || 'http://13.52.217.3:8080/api'}/:path*`,
       },
     ]
   },
