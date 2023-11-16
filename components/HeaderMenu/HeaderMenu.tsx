@@ -38,7 +38,7 @@ import { Logo } from '@/components/Logo/Logo';
 import { User } from '@/store/types/type';
 import { userAtom } from '@/store/userStore';
 import { useUserAtomLogout } from '@/store/userStoreUtils';
-import {useLogout} from "@/api/user";
+import {useCurrentUser, useLogout} from '@/api/user';
 
 const RewardsMenu = [
     {
@@ -60,7 +60,7 @@ const AvatarMenu = ({ user }: { user: User }) => {
     const [userMenuOpened, setUserMenuOpened] = useState(false);
     const atomLogout = useUserAtomLogout();
     const route = useRouter();
-    const {logout} = useLogout();
+    const { logout } = useLogout();
 
     return (
         <div>
@@ -103,8 +103,10 @@ const AvatarMenu = ({ user }: { user: User }) => {
                                 stroke={1.5}
                             />
                         }
+                        component={Link}
+                        href="/user/orders"
                     >
-                        Your orders
+                        Your Orders
                     </Menu.Item>
                     <Menu.Divider />
                     <Menu.Label>Settings</Menu.Label>
@@ -157,7 +159,8 @@ export default function HeaderMenu() {
         close: closeDrawer,
     }] = useDisclosure(false);
     const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
-    const user = useAtomValue(userAtom);
+    // const user = useAtomValue(userAtom);
+    const {currentUser: user} = useCurrentUser();
     const theme = useMantineTheme();
 
     const links = RewardsMenu.map((item) => (

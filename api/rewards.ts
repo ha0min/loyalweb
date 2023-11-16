@@ -4,7 +4,7 @@ import { RewardRecord } from '@/type';
 
 type RewardsHistoryRequest = {
     pageSize: number;
-    page: number;
+    current: number;
     sortField?: string;
     sortOrder?: string;
 };

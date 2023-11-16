@@ -11,21 +11,33 @@ import { useOrdersList } from '@/api/orders';
 
 const Page = () => {
     const { data, isLoading, isError } = useOrdersList({
-        page: 1,
+        current: 1,
         pageSize: 100,
     });
-
-    if (isError) {
-        return <Result
-            status="error"
-            title="Failed to load order history"
-            subTitle={`reason ${isError}`}
-        />;
-    }
 
     useEffect(() => {
         console.log(data);
     }, [data]);
+
+    if (isError) {
+        return (
+            <Container p="md">
+                <Result
+                    status="error"
+                    title="Failed to load order history"
+                    subTitle={`reason ${isError}`}
+                />
+            </Container>
+        );
+    }
+
+    if (isLoading) {
+        return (
+            <Container p="md">
+                <Skeleton active />
+            </Container>
+        );
+    }
 
     return (
         <Container p="md">

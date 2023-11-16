@@ -4,7 +4,7 @@ import { fetcher } from '@/api/common';
 
 export type ProductListRequest = {
     pageSize: number;
-    page: number;
+    current: number;
     sortField?: string;
     sortOrder?: string;
     name?: string;
@@ -34,6 +34,8 @@ export const useProductDetail = (id: number) => {
 export const useProductList = (props:ProductListRequest) => {
     const key = JSON.stringify(['/api/product/list/page/vo', props]);
 
+    console.log('useProductList with key:', key);
+
     const { data, error } = useSWR<ProductListData, Error>(
         key,
         () => fetcher<ProductListData>('/api/product/list/page/vo', 'POST', props),
@@ -48,7 +50,7 @@ export const useProductList = (props:ProductListRequest) => {
 
 export type PointsProductListRequest = {
     pageSize: number;
-    page: number;
+    current: number;
     sortField?: string;
     sortOrder?: string;
 };

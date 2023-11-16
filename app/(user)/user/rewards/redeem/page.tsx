@@ -19,7 +19,7 @@ const RewardsRedeemPage = () => {
         isError,
     } = usePointsProductList({
         pageSize: 1000,
-        page: 1,
+        current: 1,
     });
 
     const [isFilter, setIsFilter] = useState(false);

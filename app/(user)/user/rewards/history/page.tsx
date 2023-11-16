@@ -1,11 +1,10 @@
 'use client';
 
 import { Container, Title, Text, Paper, Image, ThemeIcon, SimpleGrid, Flex, Grid } from '@mantine/core';
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import dayjs from 'dayjs';
 import { IconArrowDownRight, IconArrowUpRight } from '@tabler/icons-react';
 import {Result, Skeleton} from 'antd';
-import { PageTitle } from '@/components/PageTitle/PageTitle';
 import { useCurrentUser } from '@/api/user';
 import { RewardRecord } from '@/type';
 import { useUserRewardsHistory } from '@/api/rewards';
@@ -24,7 +23,7 @@ const RewardsHistoryPage = () => {
         isError,
         data,
     } = useUserRewardsHistory({
-        page: 1,
+        current: 1,
         pageSize: 200,
     });
 
@@ -135,7 +134,8 @@ const RewardsHistoryPage = () => {
                                     <Grid.Col span={6}>
                                         <Flex gap="xs">
                                             <ThemeIcon color={record.points > 0 ? 'green' : 'red'} variant="light">
-                                                {record.points > 0 ? <IconArrowUpRight size={16} /> :
+                                                {record.points > 0
+                                                    ? <IconArrowUpRight size={16} /> :
                                                     <IconArrowDownRight size={16} />
                                                 }
                                             </ThemeIcon>

@@ -49,8 +49,10 @@ const ShopPage = () => {
         isLoading,
         isError,
     } = useProductList({
-        pageSize: 1000,
-        page: 1,
+        pageSize: 200,
+        current: 1,
+        name: '',
+        category: '',
     });
 
     // Fetch data from API

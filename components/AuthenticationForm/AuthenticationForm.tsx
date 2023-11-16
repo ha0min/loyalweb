@@ -83,20 +83,23 @@ export default function AuthenticationForm({
         },
     });
 
-    const handleSubmit = async () => {
-        // TODO: Handle form submission
+    const handleLogin = async () => {
+        console.log('login! login form.values', form.values)
         setLoading(true);
-        // setError(null);
-        if (formType === 'register') {
-            await register(form.values.username,
-                form.values.nickname,
-                form.values.password,
-                form.values.confirmPassword,
-                form.values.email);
-        } else {
-            await login(form.values.username, form.values.password);
-        }
+        await login(form.values.username, form.values.password);
     };
+
+    const handleRegister = async () => {
+        console.log('register! register form.values', form.values);
+        setLoading(true);
+        await register(form.values.username,
+            form.values.nickname,
+            form.values.password,
+            form.values.confirmPassword,
+            form.values.email);
+    };
+
+    const onSubmit = formType === 'register' ? handleRegister : handleLogin;
 
     useEffect(() => {
         if (loginError) {
@@ -132,13 +135,19 @@ export default function AuthenticationForm({
             } else {
                 router.push('/admin');
             }
-        } else if (registerUser || loginUser) {
-            setUser(registerUser || loginUser);
+        } else if (loginUser) {
+            setUser(loginUser);
             notification.success({
                 message: 'Success',
                 description: 'You have successfully logged in',
             });
             console.log('useEffect user log', user);
+        } else if (registerUser) {
+            setUser(registerUser);
+            notification.success({
+                message: 'Success',
+                description: 'Welcome to the community, you will be redirected shortly',
+            });
         }
     }, [user, registerUser, loginUser, router]);
 
@@ -154,7 +163,7 @@ export default function AuthenticationForm({
             radius="md"
         >
 
-            <form onSubmit={form.onSubmit(handleSubmit)}>
+            <form onSubmit={form.onSubmit(onSubmit)}>
                 {formType === 'register' && (
                     <TextInput
                         data-autofocus

@@ -4,7 +4,7 @@ import { Order, OrderDetail } from '@/store/types/type';
 
 type OrderListRequest = {
     pageSize: number;
-    page: number;
+    current: number;
     sortField?: string;
     sortOrder?: string;
 };
@@ -15,14 +15,14 @@ type OrderListData = {
 };
 
 export const useOrdersList = (props: OrderListRequest) => {
-    const key = JSON.stringify(['/api/order/list/page/vo', props]);
+    const key = JSON.stringify(['/api/orders/list/page/vo', props]);
 
     const {
         data,
         error,
     } = useSWR<OrderListData, Error>(
         key,
-        () => fetcher<OrderListData>('/api/order/list/page/vo', 'POST', props),
+        () => fetcher<OrderListData>('/api/orders/list/page/vo', 'POST', props),
     );
 
     return {
@@ -33,13 +33,13 @@ export const useOrdersList = (props: OrderListRequest) => {
 };
 
 export const useOrderDetail = (id: number) => {
-    const key = JSON.stringify(['/api/order/get/vo', id]);
+    const key = JSON.stringify(['/api/orders/get/vo', id]);
     const {
         data,
         error,
     } = useSWR<Order, Error>(
         key,
-        () => fetcher<Order>('/api/order/get/vo', 'GET', [id]),
+        () => fetcher<Order>('/api/orders/get/vo', 'GET', [id]),
     );
 
     return {
