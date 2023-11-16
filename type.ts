@@ -22,3 +22,10 @@ export type User = {
     profile?: string,
     points?: number,
 };
+
+export type RewardRecord = {
+    id?: number;
+    userId?: number;
+    points?: number;
+    createTime?: string;
+};

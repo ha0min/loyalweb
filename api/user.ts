@@ -136,3 +136,43 @@ export const useCurrentUser = () => {
     //     isAdmin: false, //data?.userRole !== 'user',
     // };
 };
+
+export const useLogout = () => {
+    // post /user/logout with no params
+    const [isLogoutLoading, setIsLogoutLoading] = useState(false);
+    const [logoutError, setLogoutError] = useState<Error>(null);
+
+    const logout = async () => {
+        setIsLogoutLoading(true);
+        setLogoutError(null);
+
+        try {
+            const response = await fetch('/api/user/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({}),
+            });
+
+            if (!response.ok) {
+                console.log('logout error', response);
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('logout data', data);
+
+            if (data.code !== 0) {
+                console.log('logout error', data.message);
+                throw new Error(data.message || 'API error without a message.');
+            }
+        } catch (e) {
+            setLogoutError(e.message);
+        } finally {
+            setIsLogoutLoading(false);
+        }
+    };
+
+    return { logout, isLogoutLoading, logoutError };
+};
