@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Divider, Grid, Image, Paper, Select, Stack, Text, Title } from '@mantine/core';
+import {Button, Container, Divider, Grid, Image, Select, Stack, Text, Title} from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
 import { useRouter } from 'next/navigation';
@@ -104,7 +104,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     }
 
     return (
-        <Paper p="md">
+        <Container p="md">
             <PageTitle title="Redeem Rewards" />
             <Divider />
             <Skeleton
@@ -144,7 +144,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                     </Stack>
                 )}
             </Skeleton>
-        </Paper>
+        </Container>
     );
 };
 

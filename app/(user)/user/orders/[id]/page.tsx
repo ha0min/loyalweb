@@ -1,6 +1,6 @@
 'use client';
 
-import { Paper, Stack, Text, Flex, Divider, Image } from '@mantine/core';
+import { Paper, Stack, Text, Flex, Divider, Image, Container } from '@mantine/core';
 import { useEffect } from 'react';
 import { Result, Skeleton } from 'antd';
 import { useOrderDetail } from '@/api/orders';
@@ -28,7 +28,7 @@ const Page = ({ params }: { params: { id: number } }) => {
     }
 
     return (
-        <Paper p="md">
+        <Container p="md">
             <PageTitle
                 title="Order Detail"
                 subtitle="Check what you got"
@@ -71,7 +71,7 @@ const Page = ({ params }: { params: { id: number } }) => {
                 )}
             </Skeleton>
 
-        </Paper>
+        </Container>
     );
 };
 
