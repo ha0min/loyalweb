@@ -58,3 +58,17 @@ export const userRemoveCartItemFromCartAtom = () => {
 
     return removeCartItem;
 };
+
+export const useClearCartAtom = () => {
+    const setCartAtom = useSetAtom(cartAtom);
+    const clearCart = () => {
+        setCartAtom((prev) => ({
+            ...prev,
+            items: [],
+            totalQuantity: 0,
+            subtotal: 0,
+        }));
+    };
+
+    return clearCart;
+};

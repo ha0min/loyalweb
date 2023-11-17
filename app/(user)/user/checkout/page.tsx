@@ -18,11 +18,13 @@ import { useEffect, useState } from 'react';
 import { List } from 'antd';
 import { useForm } from '@mantine/form';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { cartAtom, cartAtomType } from '@/store/cartStore';
 import { SubmitOrderFormValues, useSubmitOrder } from '@/api/forms';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
 import { PaymentMimic } from '@/components/Payment';
 import { CheckoutResult } from '@/components/CheckoutResult';
+import { useClearCartAtom } from '@/store/cartStoreUtils';
 
 const ItemContent = (props: { cartValue: cartAtomType }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -36,6 +38,23 @@ const ItemContent = (props: { cartValue: cartAtomType }) => {
         const loading = props.cartValue.items.length === 0;
         setIsLoading(loading);
     }, [props.cartValue]);
+
+    if (props.cartValue.items.length === 0) {
+        return (
+            <Stack justify="center" align="center">
+                <Text fw={500} size="lg">
+                Please add some items to your cart first.
+                </Text>
+                <Button
+                    component={Link}
+                    href="/user/shop"
+                    variant="outline"
+                >
+                    Go to Shop
+                </Button>
+            </Stack>
+        );
+    }
 
     return (
         <div>
@@ -91,6 +110,7 @@ const CheckoutPage = () => {
         error,
         isLoading,
     } = useSubmitOrder();
+    const clearCart = useClearCartAtom();
 
     const transformedOrderDetails = cartValue.items.map(item => ({
         productId: item.product.id,
@@ -148,9 +168,14 @@ const CheckoutPage = () => {
     };
 
     useEffect(() => {
-        if (orderResponse || error) {
-            nextStep();
+        if (orderResponse) {
+            console.log(`Success submit order${orderResponse}`);
+            clearCart();
         }
+        if (error) {
+            console.log('error', error);
+        }
+        nextStep();
     }, [orderResponse, error]);
 
     return (
@@ -194,7 +219,8 @@ const CheckoutPage = () => {
                             onClick={() => {
                                 console.log('result clicked');
                                 route.push(`/user/orders/${orderResponse.data.id}`);
-                            } /* Implement retry logic or leave empty if not applicable */}
+                            }
+                        }
                         />
                     ) : (
                         <CheckoutResult
@@ -214,7 +240,7 @@ const CheckoutPage = () => {
                 >
                     {active === 0 ? (
                         <Stack gap={0} px="md">
-                            <Title order={3}>Subtotal: ${cartValue?.subtotal}</Title>
+                            <Title order={3}>Subtotal: ${cartValue?.subtotal.toFixed(2)}</Title>
                             <Flex
                                 align="center"
                                 justify="flex-end"
@@ -243,7 +269,7 @@ const CheckoutPage = () => {
                                     }}
                                     variant="gradient"
                                 >
-                                    Estimated earning points: {cartValue?.subtotal}
+                                    Estimated earning points: {Math.floor(cartValue?.subtotal)}
                                 </Text>
                             </Flex>
                         </Stack>

@@ -16,7 +16,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         data: product,
         isError,
         isLoading,
-    } = usePointsProductDetail(Number(params.id));
+    } = usePointsProductDetail(params.id);
     const [quantity, setQuantity] = useState(1);
     const {
         currentUser,
@@ -31,33 +31,39 @@ const Page = ({ params }: { params: { id: string } }) => {
     } = useRedeem();
     const route = useRouter();
 
-    let quantityOptions = [];
+    const [quantityOptions, setQuantityOptions] = useState([{
+        value: '1',
+        label: '1',
+    }]);
 
     const form = useForm<
         SubmitRedeemFormValues
     >({
         initialValues: {
             rewardId: Number(params.id),
-            quantity: 1,
+            number: 1,
         },
 
         validate: (values) => ({
             rewardId: values.rewardId !== null
                 ? 'Please add at least one product' : null,
-            quantity: values.quantity < product.stock ? null : 'Not enough stock',
+            quantity: values.number < product.stock ? null : 'Not enough stock',
         }),
     });
 
-    if (product && currentUser) {
+    useEffect(() => {
+        if (!product || !currentUser) return;
         const canRedeem = Math.floor(currentUser.points / product.points);
-        quantityOptions = Array.from(Array(Math.min(canRedeem, product.stock))
+        const quantitys = Array.from(Array(
+            Math.min(canRedeem, product?.stock))
             .keys())
             .map((i) => ({
                 value: (i + 1).toString(),
                 label: (i + 1).toString(),
             }));
-        console.log('quantityOptions', canRedeem, product.stock, quantityOptions);
-    }
+        setQuantityOptions(quantitys);
+        console.log('quantityOptions', quantityOptions);
+    }, [product, currentUser]);
 
     useEffect(() => {
         console.log('quantity', quantity);

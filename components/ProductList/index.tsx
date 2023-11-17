@@ -128,7 +128,7 @@ const ProductList = (props: ProductListProps) => {
                                 >
                                     <Text fw={700} size="xl" px="sm">
                                         {props?.isPointsList ?
-                                            (`${item?.points.toFixed(2)} Pts`)
+                                            (`${item?.points} Pts`)
                                             : (`$ ${item?.price.toFixed(2)}`)
                                         }
                                     </Text>

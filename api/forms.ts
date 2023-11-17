@@ -26,7 +26,7 @@ export const useSubmitOrder = () => {
         setError(null);
         try {
             // Start the fetch process
-            const response = await fetch('/api/order/add', {
+            const response = await fetch('/api/orders/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export type RedeemResponse = {
 
 export type SubmitRedeemFormValues = {
     rewardId: number;
-    quantity: number;
+    number: number;
 };
 
 export const useRedeem = () => {
@@ -92,7 +92,7 @@ export const useRedeem = () => {
         setError(null);
         try {
             // Start the fetch process
-            const response = await fetch('/api/points/record/redeem', {
+            const response = await fetch('/api/orders/reward/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

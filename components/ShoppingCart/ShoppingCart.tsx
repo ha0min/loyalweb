@@ -196,7 +196,8 @@ export const ShoppingCart = () => {
                                             (newQuantity: number) => {
                                                 console.log('updateCartItem called with newQuantity',
                                                     item.product.id,
-newQuantity);
+newQuantity,
+                                                    item.product.price);
                                                 updateCartAtom(item.product, newQuantity);
                                             }
                                         }
@@ -212,7 +213,6 @@ newQuantity);
                                         <Link href="/user/shop">
                                             <Button
                                                 variant="outline"
-                                                c="purple"
                                                 size="sm"
                                                 radius="xl"
                                                 mt="sm"
@@ -243,7 +243,7 @@ newQuantity);
                                 justify="space-between"
                             >
                                 <Title order={3}>Subtotal: </Title>
-                                <Title order={3}>${cart?.subtotal}</Title>
+                                <Title order={3}>${cart?.subtotal.toFixed(2)}</Title>
                             </Flex>
                             <Flex
                                 align="center"
@@ -273,7 +273,7 @@ newQuantity);
                                     }}
                                     variant="gradient"
                                 >
-                                    Estimated earning points: {cart.subtotal}
+                                    Estimated earning points: {Math.floor(cart.subtotal)}
                                 </Text>
                             </Flex>
                         </Stack>

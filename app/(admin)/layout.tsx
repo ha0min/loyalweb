@@ -111,5 +111,5 @@ const AdminLayout = ({
     );
 };
 
-// TODO add withAdminAuth
-export default AdminLayout;
+//  add withAdminAuth
+export default withAdminAuth(AdminLayout);

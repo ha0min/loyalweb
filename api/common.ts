@@ -17,7 +17,8 @@ export const fetcher =
         throw new Error(`An error occurred while fetching the data, with status code ${response.status}`);
     }
     if (result.code !== 0) {
-        throw new Error(`Failed to fetch data with code ${result.code} and message ${result.message}`);
+        console.log(`${method} ${url} error`, result.code, result.message);
+        throw new Error(`${result.code}`);
     }
     return result.data;
 };

@@ -5,31 +5,32 @@ import {
     Container,
     Grid, Button,
 } from '@mantine/core';
-import { Carousel } from '@mantine/carousel';
-import { Result, Skeleton } from 'antd';
-import { useEffect, useState } from 'react';
-import { ProductDetail } from '@/store/types/type';
+import {Carousel} from '@mantine/carousel';
+import {Result, Skeleton} from 'antd';
+import {useEffect, useState} from 'react';
+import {ProductDetail} from '@/store/types/type';
 import ProductFilter from '@/components/ProductFilter';
 import ProductList from '@/components/ProductList';
-import { useProductList } from '@/api/product';
-import { PageTitle } from '@/components/PageTitle/PageTitle';
+import {useProductList} from '@/api/product';
+import {PageTitle} from '@/components/PageTitle/PageTitle';
+import Link from "next/link";
 
 const Banner = () => (
     <Carousel slideSize="70%" height={200} loop slideGap="md" controlSize={30} withIndicators>
         <Carousel.Slide>
-            <Image src="https://p.ipic.vip/mifc6g.png" />
+            <Image src="https://p.ipic.vip/mifc6g.png"/>
         </Carousel.Slide>
 
         <Carousel.Slide>
-            <Image src="https://p.ipic.vip/mifc6g.png" />
+            <Image src="https://p.ipic.vip/mifc6g.png"/>
         </Carousel.Slide>
 
         <Carousel.Slide>
-            <Image src="https://p.ipic.vip/mifc6g.png" />
+            <Image src="https://p.ipic.vip/mifc6g.png"/>
         </Carousel.Slide>
 
         <Carousel.Slide>
-            <Image src="https://p.ipic.vip/mifc6g.png" />
+            <Image src="https://p.ipic.vip/mifc6g.png"/>
         </Carousel.Slide>
     </Carousel>
 );
@@ -58,11 +59,15 @@ const ShopPage = () => {
     // Fetch data from API
     useEffect(() => {
         if (data) {
-            const allCategories = Array.from(new Set(data.records.map(item => item.category)));
+            const allCategories = Array.from(
+                new Set(data.records.map(item => item.category)));
             setCategories(allCategories);
             setSelectedCategories(allCategories);
-            setProducts(data.records);
-            setOriginalProducts(data.records);
+            setProducts(data.records.map(record => ({
+                ...record,
+                price: parseFloat(record.price.toFixed(2)),
+            })));
+            // setOriginalProducts(data.records);
         }
     }, [data]);
 
@@ -89,7 +94,7 @@ const ShopPage = () => {
                 status="error"
                 title="Error loading products"
                 subTitle={isError.message}
-                extra={<Button type="button">Try again</Button>}
+                extra={<Button type="button" component={Link} href="/user/shop">Try again</Button>}
             >
                 Error loading products...
             </Result>
@@ -97,38 +102,38 @@ const ShopPage = () => {
     }
 
     return (
-            <Container p="md">
-                <PageTitle
-                    title="Buy your favorite product"
-                    subtitle="Earn points for every purchase you make."
-                    url="https://em-content.zobj.net/source/telegram/358/shopping-bags_1f6cd-fe0f.webp"
-                />
-                <Grid my="md">
-                    <Grid.Col>
-                        <Banner />
-                    </Grid.Col>
-                </Grid>
+        <Container p="md">
+            <PageTitle
+                title="Buy your favorite product"
+                subtitle="Earn points for every purchase you make."
+                url="https://em-content.zobj.net/source/telegram/358/shopping-bags_1f6cd-fe0f.webp"
+            />
+            <Grid my="md">
+                <Grid.Col>
+                    <Banner/>
+                </Grid.Col>
+            </Grid>
 
-                <Grid>
-                    <Grid.Col>
-                        <Skeleton loading={isLoading}>
-                            <Grid gutter="md">
-                                <Grid.Col span={3}>
-                                    <ProductFilter
-                                        categories={categories}
-                                        onSortChange={setSortOrder}
-                                        onCategoryChange={setSelectedCategories}
-                                    />
-                                </Grid.Col>
+            <Grid>
+                <Grid.Col>
+                    <Skeleton loading={isLoading}>
+                        <Grid gutter="md">
+                            <Grid.Col span={3}>
+                                <ProductFilter
+                                    categories={categories}
+                                    onSortChange={setSortOrder}
+                                    onCategoryChange={setSelectedCategories}
+                                />
+                            </Grid.Col>
 
-                                <Grid.Col span={9}>
-                                    <ProductList products={products} total={products.length} />
-                                </Grid.Col>
-                            </Grid>
-                        </Skeleton>
-                    </Grid.Col>
-                </Grid>
-            </Container>
+                            <Grid.Col span={9}>
+                                <ProductList products={products} total={products.length}/>
+                            </Grid.Col>
+                        </Grid>
+                    </Skeleton>
+                </Grid.Col>
+            </Grid>
+        </Container>
     );
 };
 export default ShopPage;

@@ -16,10 +16,13 @@ const Page = ({ params }: { params: { id: string } }) => {
         isError,
         isLoading,
     } =
-        useProductDetail(Number(params.id));
+        useProductDetail(params.id);
     const [quantity, setQuantity] = useState(1);
 
-    let quantityOptions = [];
+    const [quantityOptions, setQuantityOptions] = useState([{
+        value: '1',
+        label: '1',
+    }]);
 
     const form = useForm<
         SubmitOrderFormValues
@@ -36,14 +39,16 @@ const Page = ({ params }: { params: { id: string } }) => {
         }),
     });
 
-    if (product) {
-        quantityOptions = Array.from(Array(product.stock)
+    useEffect(() => {
+        const quantitys = Array.from(Array(Number(product?.stock || 1))
             .keys())
             .map((i) => ({
                 value: (i + 1).toString(),
                 label: (i + 1).toString(),
             }));
-    }
+        setQuantityOptions(quantitys);
+        console.log('quantityOptions', quantityOptions);
+    }, [product]);
 
     useEffect(() => {
         console.log('quantity', quantity);
@@ -77,6 +82,16 @@ const Page = ({ params }: { params: { id: string } }) => {
                 pointsEarned={parseInt(orderResponse.data.pointsEarned, 10)}
                 currentPoints={parseInt(orderResponse.data.points, 10)}
                 onClick={() => route.push(`/user/orders/${orderResponse.data.id}`)}
+            />
+        );
+    }
+
+    if (isError) {
+        return (
+            <Result
+                status="error"
+                title="Error"
+                subTitle={`Sorry, something went wrong. ${isError}`}
             />
         );
     }

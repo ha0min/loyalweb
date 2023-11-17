@@ -70,10 +70,8 @@ const RewardsHistoryPage = () => {
         return result;
     }, [data]);
 
-    //TODO: add currentError handler
-    // if (isError || currentError) {
-
-    if (isError) {
+    if (isError || currentError) {
+    // if (isError) {
         return (
             <Result
                 status="error"
@@ -101,7 +99,7 @@ const RewardsHistoryPage = () => {
 
                 <div>
                     <Title>Let&apos;s celebrate your loyalty!</Title>
-                    <Skeleton loading={currentUser !== null || isLoading} active>
+                    <Skeleton loading={isCurrentUserLoading} active>
                         <Text fw={500} size="lg">You currently have: {currentUser?.points} points.</Text>
                     </Skeleton>
                 </div>

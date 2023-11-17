@@ -34,12 +34,15 @@ export const useOrdersList = (props: OrderListRequest) => {
 
 export const useOrderDetail = (id: number) => {
     const key = JSON.stringify(['/api/orders/get/vo', id]);
+
+    console.log('useOrderDetail with key:', key);
+
     const {
         data,
         error,
     } = useSWR<Order, Error>(
         key,
-        () => fetcher<Order>('/api/orders/get/vo', 'GET', [id]),
+        () => fetcher<Order>(`/api/orders/get/vo?id=${id.toString()}`, 'GET', [id]),
     );
 
     return {

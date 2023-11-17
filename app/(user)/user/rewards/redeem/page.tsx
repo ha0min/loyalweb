@@ -65,11 +65,9 @@ const RewardsRedeemPage = () => {
 
                 <div>
                     <Title>Let&apos;s celebrate your loyalty!</Title>
-                    <Skeleton loading={currentUser !== null || isLoading} active>
+                    <Skeleton loading={isCurrentUserLoading} active>
                         <Text fw={500} size="lg">You currently have: {currentUser?.points} points.</Text>
-                        <Checkbox onClick={() => { setIsFilter(!isFilter); }}>
-                            Only show what can redeemed
-                        </Checkbox>
+                        <Checkbox label="Only show what can redeemed" onClick={() => { setIsFilter(!isFilter); }} />
                     </Skeleton>
                 </div>
             </Flex>

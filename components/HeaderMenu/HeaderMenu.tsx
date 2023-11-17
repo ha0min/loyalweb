@@ -3,7 +3,6 @@
 import {
     HoverCard,
     Group,
-    Button,
     UnstyledButton,
     Text,
     SimpleGrid,
@@ -31,12 +30,10 @@ import {
 import Link from 'next/link';
 import { useState } from 'react';
 import cx from 'clsx';
-import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/navigation';
 import classes from './HeaderMenu.module.css';
 import { Logo } from '@/components/Logo/Logo';
 import { User } from '@/store/types/type';
-import { userAtom } from '@/store/userStore';
 import { useUserAtomLogout } from '@/store/userStoreUtils';
 import {useCurrentUser, useLogout} from '@/api/user';
 

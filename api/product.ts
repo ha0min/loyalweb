@@ -16,12 +16,12 @@ export type ProductListData = {
     records: ProductDetail[];
 };
 
-export const useProductDetail = (id: number) => {
-    const key = JSON.stringify(['/api/product/get/vo', id]);
+export const useProductDetail = (id: string) => {
+    const key = JSON.stringify([`/api/product/get/vo?id=${id}`, id]);
 
     const { data, error } = useSWR<ProductDetail, Error>(
         key,
-        () => fetcher<ProductDetail>('/api/product/get/vo', 'GET', [id]),
+        () => fetcher<ProductDetail>(`/api/product/get/vo?id=${id}`, 'GET', [id]),
     );
 
     return {
@@ -72,12 +72,12 @@ export const usePointsProductList = (props:PointsProductListRequest) => {
     };
 };
 
-export const usePointsProductDetail = (id: number) => {
-    const key = JSON.stringify(['/api/reward/get/vo', id]);
+export const usePointsProductDetail = (id: string) => {
+    const key = JSON.stringify([`/api/reward/get/vo?id=${id}`, id]);
 
     const { data, error } = useSWR<ProductDetail, Error>(
         key,
-        () => fetcher<ProductDetail>('/api/reward/get/vo', 'GET', [id]),
+        () => fetcher<ProductDetail>(`/api/reward/get/vo?id=${id}`, 'GET', [id]),
     );
 
     return {
