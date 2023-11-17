@@ -1,11 +1,11 @@
 // withAuth.js
-import {useEffect} from 'react';
-import {useRouter} from 'next/navigation';
-import {notification} from 'antd';
-import {useAtom, useAtomValue} from 'jotai';
-import {useCurrentUser} from '@/api/user';
-import {userAtom} from '@/store/userStore';
-import Link from "next/link";
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { notification } from 'antd';
+import { useAtom, useAtomValue } from 'jotai';
+import Link from 'next/link';
+import { useCurrentUser } from '@/api/user';
+import { userAtom } from '@/store/userStore';
 
 const withAuth = (WrappedComponent) => (props) => {
     const {

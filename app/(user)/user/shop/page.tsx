@@ -5,32 +5,32 @@ import {
     Container,
     Grid, Button,
 } from '@mantine/core';
-import {Carousel} from '@mantine/carousel';
-import {Result, Skeleton} from 'antd';
-import {useEffect, useState} from 'react';
-import {ProductDetail} from '@/store/types/type';
+import { Carousel } from '@mantine/carousel';
+import { Result, Skeleton } from 'antd';
+import { useEffect, useState } from 'react';
+import Link, { useRouter } from 'next/navigation';
+import { ProductDetail } from '@/store/types/type';
 import ProductFilter from '@/components/ProductFilter';
 import ProductList from '@/components/ProductList';
-import {useProductList} from '@/api/product';
-import {PageTitle} from '@/components/PageTitle/PageTitle';
-import Link from "next/link";
+import { useProductList } from '@/api/product';
+import { PageTitle } from '@/components/PageTitle/PageTitle';
 
 const Banner = () => (
     <Carousel slideSize="70%" height={200} loop slideGap="md" controlSize={30} withIndicators>
         <Carousel.Slide>
-            <Image src="https://p.ipic.vip/mifc6g.png"/>
+            <Image src="https://p.ipic.vip/mifc6g.png" />
         </Carousel.Slide>
 
         <Carousel.Slide>
-            <Image src="https://p.ipic.vip/mifc6g.png"/>
+            <Image src="https://p.ipic.vip/mifc6g.png" />
         </Carousel.Slide>
 
         <Carousel.Slide>
-            <Image src="https://p.ipic.vip/mifc6g.png"/>
+            <Image src="https://p.ipic.vip/mifc6g.png" />
         </Carousel.Slide>
 
         <Carousel.Slide>
-            <Image src="https://p.ipic.vip/mifc6g.png"/>
+            <Image src="https://p.ipic.vip/mifc6g.png" />
         </Carousel.Slide>
     </Carousel>
 );
@@ -38,12 +38,11 @@ const Banner = () => (
 const ShopPage = () => {
     // here we need to filter the products by category
     // and then display them in product list
-    const [originalProducts, setOriginalProducts] = useState<ProductDetail[]>([]);
     const [products, setProducts] = useState<ProductDetail[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [sortOrder, setSortOrder] = useState<'asc' | 'des'>('asc');
     const [categories, setCategories] = useState<string[]>([]);
-    // const [isLoading, setIsLoading] = useState(true);
+    const router = useRouter();
 
     const {
         data,
@@ -94,7 +93,14 @@ const ShopPage = () => {
                 status="error"
                 title="Error loading products"
                 subTitle={isError.message}
-                extra={<Button type="button" component={Link} href="/user/shop">Try again</Button>}
+                extra={<Button
+key="errorloading-btn"
+type="button"
+                               onClick={() => router.push('/user/')}
+                >
+                    Try again
+                       </Button>
+                }
             >
                 Error loading products...
             </Result>
@@ -110,7 +116,7 @@ const ShopPage = () => {
             />
             <Grid my="md">
                 <Grid.Col>
-                    <Banner/>
+                    <Banner />
                 </Grid.Col>
             </Grid>
 
@@ -127,7 +133,7 @@ const ShopPage = () => {
                             </Grid.Col>
 
                             <Grid.Col span={9}>
-                                <ProductList products={products} total={products.length}/>
+                                <ProductList products={products} total={products.length} />
                             </Grid.Col>
                         </Grid>
                     </Skeleton>
