@@ -117,6 +117,10 @@ const AvatarMenu = ({ user }: { user: User }) => {
                                 stroke={1.5}
                             />
                         }
+                        onClick={() => {
+                            console.log('settings');
+                            route.push('/user/profile');
+                        }}
                     >
                         Profile settings
                     </Menu.Item>

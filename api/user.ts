@@ -176,3 +176,44 @@ export const useLogout = () => {
 
     return { logout, isLogoutLoading, logoutError };
 };
+
+export const useUpdateUser = () => {
+    const [isUpdateLoading, setIsUpdateLoading] = useState(false);
+    const [updateError, setUpdateError] = useState<Error>(null);
+
+    const update = async (params:
+                              { username: string, email: string, avatar: string, profile:string, phone:string }) => {
+        console.log('updateUser params', params);
+        setIsUpdateLoading(true);
+        setUpdateError(null);
+
+        try {
+            const response = await fetch('/api/user/update', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(params),
+            });
+
+            if (!response.ok) {
+                console.log('update error', response);
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('update data', data);
+
+            if (data.code !== 0) {
+                console.log('update error', data.message);
+                throw new Error(data.message || 'API error without a message.');
+            }
+        } catch (e) {
+            setUpdateError(e.message);
+        } finally {
+            setIsUpdateLoading(false);
+        }
+    };
+
+    return { update, isUpdateLoading, updateError };
+};
