@@ -4,7 +4,7 @@ import { Badge, Button, Text, Container, Group, Space, Title, Image } from '@man
 import { ProductDetail } from '@/type';
 
 const product: ProductDetail = {
-    id: 45664243533479936,
+    id: '45664243533479936',
     name: 'Sofa Pro',
     picture: 'http://dummyimage.com/400x400', // Replace with actual image URL
     category: 'Furniture',
