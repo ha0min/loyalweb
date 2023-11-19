@@ -3,7 +3,7 @@
 export type ProductDetail = {
     category?: string;
     description?: string;
-    id?: number;
+    id?: string;
     name?: string;
     picture?: string;
     price?: number;
