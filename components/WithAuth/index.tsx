@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { notification } from 'antd';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useCurrentUser } from '@/api/user';
 import { userAtom } from '@/store/userStore';
@@ -64,12 +64,13 @@ export const withAdminAuth = (WrappedComponent) => (props) => {
         currentError,
     } = useCurrentUser();
     const router = useRouter();
-    const stateUser = useAtomValue(userAtom);
+    const [stateUser, setStateUser] = useAtom(userAtom);
 
     useEffect(() => {
-        if (!isCurrentUserLoading && !currentUser && !stateUser?.username) {
-            router.push('/start'); // Redirect to login if not authenticated
+        if (!isCurrentUserLoading && !currentUser) {
+            router.push('/start');
         }
+
         if (!isCurrentUserLoading && currentUser && !currentUser.userRole.includes('admin')
             && stateUser?.username && !stateUser?.userRole?.includes('admin')) {
             notification.error({
@@ -78,15 +79,21 @@ export const withAdminAuth = (WrappedComponent) => (props) => {
             });
             router.push('/start');
         }
+
+        if (!isCurrentUserLoading && currentUser && currentUser.userRole.includes('admin')) {
+            setStateUser(currentUser);
+        }
     }, [currentUser, isCurrentUserLoading, currentError, router]);
 
     if (isCurrentUserLoading) {
         return <div>Loading...</div>; // Or handle error/loading state as needed
     }
-    if (currentError) {
-        console.log('error: ', currentError);
-    }
 
+    if (currentError) {
+        if (currentError.message === '40100') {
+            return <Link href="/start">Please login to access</Link>;
+        }
+    }
     return <WrappedComponent {...props} />;
 };
 
