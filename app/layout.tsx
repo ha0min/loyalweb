@@ -5,6 +5,7 @@ import '@mantine/carousel/styles.css';
 
 import React from 'react';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
+import { Analytics } from '@vercel/analytics/react';
 import { Provider } from 'jotai';
 import { theme } from '../theme';
 
@@ -12,6 +13,7 @@ export default function RootLayout({ children }: { children: any }) {
     return (
         <html lang="en">
         <head>
+            <title>Fanly, a reward program</title>
             <ColorSchemeScript />
             <link rel="shortcut icon" href="/favicon.ico" />
             <meta
@@ -25,6 +27,7 @@ export default function RootLayout({ children }: { children: any }) {
                     {children}
             </MantineProvider>
         </Provider>
+        <Analytics />
         </body>
         </html>
     );

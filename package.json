@@ -28,6 +28,7 @@
     "@next/bundle-analyzer": "^13.5.3",
     "@swc-jotai/react-refresh": "^0.1.0",
     "@tabler/icons-react": "^2.20.0",
+    "@vercel/analytics": "^1.1.1",
     "antd": "^5.10.3",
     "embla-carousel-react": "^8.0.0-rc14",
     "jotai": "^2.5.0",
