@@ -2,7 +2,7 @@
 
 import { PageContainer } from '@ant-design/pro-layout';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-table';
-import { Typography } from 'antd';
+import {notification, Typography} from 'antd';
 import { useRef, useState } from 'react';
 import { ProForm, ProFormDigit, ProFormInstance, ProFormMoney, ProFormText } from '@ant-design/pro-form';
 import { Card } from '@mantine/core';
@@ -213,6 +213,11 @@ const AddProduct = () => {
                 onFinish={async (values) => {
                     console.log('add product form values', values);
                     await fetcher<ProductDetail>('/api/product/add', 'POST', values);
+                    notification.success({
+                        message: 'Success',
+                        description: 'Product added successfully',
+                    });
+                    formRef.current?.resetFields();
                 }}
                 formRef={formRef}
                 layout="horizontal"
@@ -277,7 +282,7 @@ const AddProduct = () => {
                 />
                 <ProFormText
                     width="md"
-                    name="Description"
+                    name="description"
                     label="Description"
                     placeholder="Please enter product description"
                     rules={[
@@ -310,15 +315,15 @@ const Page = () => {
         <div>
             <PageContainer
                 header={{
-                    title: 'Products',
+                    title: 'Products Management',
                 }}
                 tabList={[
                     {
                         tab: 'Product Table',
-                        key: 'ProductTable',
+                        key: 'producttable',
                     },
                     {
-                        tab: 'Add',
+                        tab: 'Add Product',
                         key: 'add',
                     },
                 ]}
@@ -327,7 +332,7 @@ const Page = () => {
                     setActiveTab(key);
                 }}
             >
-                {activeTab === 'ProductTable' && <ProductTable />}
+                {activeTab === 'producttable' && <ProductTable />}
                 {activeTab === 'add' && <AddProduct />}
             </PageContainer>
         </div>

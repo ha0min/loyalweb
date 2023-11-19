@@ -1,13 +1,13 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-import { CrownFilled, DashboardFilled, LogoutOutlined, ShopFilled, SignalFilled, TabletFilled } from '@ant-design/icons';
+import { CrownFilled, DashboardFilled, LogoutOutlined, ShopFilled } from '@ant-design/icons';
 import Link from 'next/link';
 import { useState } from 'react';
 import { App, ConfigProvider } from 'antd';
 import enUSIntl from 'antd/lib/locale/en_US';
 import { ProLayout } from '@ant-design/pro-layout';
 import { Button } from '@mantine/core';
+import { useRouter } from 'next/navigation';
 import Footer from '@/components/Footer/Footer';
 import { withAdminAuth } from '@/components/WithAuth';
 import { Logo } from '@/components/Logo/Logo';
@@ -25,6 +25,7 @@ const AdminLayout = ({
 }) => {
     const atomLogout = useUserAtomLogout();
     const { logout } = useLogout();
+    const route = useRouter();
 
     const [routes, setRoutes] = useState(
         {
@@ -39,33 +40,12 @@ const AdminLayout = ({
                     path: '/admin/rewards',
                     name: 'Rewards',
                     icon: <CrownFilled />,
-                    routes: [
-                        {
-                            path: '/admin/rewards/manage',
-                            name: 'Management',
-                        },
-                        {
-                            path: '/admin/rewards/history',
-                            name: 'History',
-                        },
-                    ],
                 },
                 {
                     path: '/admin/products',
                     icon: <ShopFilled />,
                     name: 'Products',
                 },
-                {
-                    name: 'Orders',
-                    icon: <TabletFilled />,
-                    path: '/admin/orders',
-                },
-                {
-                    path: '/admin/analytics',
-                    icon: <SignalFilled />,
-                    name: 'Analytics',
-                },
-
             ],
         }
     );
@@ -91,17 +71,25 @@ const AdminLayout = ({
                         logo={<Logo />}
                         locale="en-US"
                         footerRender={() => <Footer />}
-                        menuFooterRender={() => <Button>
-                            <LogoutOutlined onClick={() => {
-                                console.log('logout');
-                                atomLogout();
-                                logout()
-                                    .catch((err) => {
-                                        console.log(err);
-                                    });
-                            }}
-                            />
-                                                </Button>}
+                        menuFooterRender={() => (
+                            <Button
+                                onClick={() => {
+                                    console.log('logout');
+                                    atomLogout();
+                                    logout()
+                                        .then(() => {
+                                            console.log('logout success');
+                                            route.push('/');
+                                        })
+                                        .catch((err) => {
+                                            console.log(err);
+                                        });
+                                }}
+                            >
+                                <LogoutOutlined />
+                            </Button>
+                        )
+                    }
                     >
                         {children}
                     </ProLayout>

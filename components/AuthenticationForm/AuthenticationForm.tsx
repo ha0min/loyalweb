@@ -133,7 +133,7 @@ export default function AuthenticationForm({
             if (user.userRole === 'user') {
                 router.push('/user');
             } else {
-                router.push('/admin');
+                router.push('/admin/dashboard');
             }
         } else if (loginUser) {
             setUser(loginUser);
