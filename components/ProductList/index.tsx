@@ -36,7 +36,7 @@ const ProductOfDetail = (props: {
 
                             <Text size="lg" fw={500} mt="md">
                                 {props?.isPointsList ?
-                                    (`${product.points.toFixed(2)} Pts`)
+                                    (`${product.points} Pts`)
                                     : (`$${product.price.toFixed(2)}`)
                                 }
                             </Text>

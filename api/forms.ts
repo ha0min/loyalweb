@@ -12,7 +12,7 @@ export type OrderResponse = {
 
 export type SubmitOrderFormValues = {
     remark: string;
-    orderDetailAddRequestList: Array<{ productId: number; number: number; }>;
+    orderDetailAddRequestList: Array<{ productId: string; number: number; }>;
 };
 
 export const useSubmitOrder = () => {
@@ -75,7 +75,7 @@ export type RedeemResponse = {
 };
 
 export type SubmitRedeemFormValues = {
-    rewardId: number;
+    rewardId: string;
     number: number;
 };
 

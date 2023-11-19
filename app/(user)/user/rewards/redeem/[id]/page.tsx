@@ -40,7 +40,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         SubmitRedeemFormValues
     >({
         initialValues: {
-            rewardId: Number(params.id),
+            rewardId: params.id,
             number: 1,
         },
 
@@ -64,14 +64,6 @@ const Page = ({ params }: { params: { id: string } }) => {
         setQuantityOptions(quantitys);
         console.log('quantityOptions', quantityOptions);
     }, [product, currentUser]);
-
-    useEffect(() => {
-        console.log('quantity', quantity);
-        form.setFieldValue('orderDetailAddRequestList', [{
-            productId: product?.id,
-            number: quantity,
-        }]);
-    }, [quantity]);
 
     if (redeemResponse) {
         return error ? (
@@ -133,7 +125,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                         <Divider />
                         <Button
                             onClick={() => {
-                                console.log('submit order');
+                                console.log('submit redeem');
                                 console.log('form', form.values);
                                 submitRedeem(form.values);
                             }}

@@ -128,8 +128,8 @@ const AvatarMenu = ({ user }: { user: User }) => {
                         onClick={() => {
                             console.log('logout');
                             console.log(user);
-                            atomLogout();
                             logout().then(() => {
+                                atomLogout();
                                 route.push('/');
                             }).catch((err) => {
                                 console.log(err);
