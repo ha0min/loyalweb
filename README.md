@@ -35,7 +35,7 @@
 
 ![Screen Shot](images/screenshot.png)
 
-This project is the frontend part of a web application designed to manage a loyalty program. It includes two layouts for both user and admin. Features includes user authentication, reward history tracking, product listing, shopping cart management, and order processing, etc. You could find the backend code here: ![Loyalty Rewards Application](https://github.com/LLLbin/loyalty-rewards-application).
+This project is the frontend part of a web application designed to manage a loyalty program. It includes two layouts for both user and admin. Features includes user authentication, reward history tracking, product listing, shopping cart management, and order processing, etc. You could find the backend code here: [Loyalty Rewards Application](https://github.com/LLLbin/loyalty-rewards-application).
 
 ## Built With
 
